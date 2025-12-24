@@ -45,10 +45,10 @@ uninstall_from_project() {
         "")
             print_error "请指定平台"
             echo ""
-            echo "${CYAN}用法:${NC}"
+            echo -e "${CYAN}用法:${NC}"
             echo "  uikit uninstall <platform>"
             echo ""
-            echo "${CYAN}支持的平台:${NC}"
+            echo -e "${CYAN}支持的平台:${NC}"
             echo "  claude    Claude Code"
             echo "  qoder     Qoder"
             echo "  all       从所有平台卸载"
@@ -58,7 +58,7 @@ uninstall_from_project() {
         *)
             print_error "不支持的平台: $platform"
             echo ""
-            echo "${CYAN}支持的平台:${NC} claude, qoder, all"
+            echo -e "${CYAN}支持的平台:${NC} claude, qoder, all"
             return 1
             ;;
     esac
