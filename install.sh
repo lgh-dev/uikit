@@ -113,26 +113,28 @@ download_binary() {
     local download_url="https://github.com/${REPO}/releases/download/${version}/${binary_name}"
     local temp_file="/tmp/${binary_name}"
 
-    # 所有输出重定向到 stderr，避免污染返回值
-    print_info "下载 UIKit CLI ${version} (${platform})..." >&2
-    echo -e "${BLUE}URL:${NC} $download_url" >&2
+    print_info "下载 UIKit CLI ${version} (${platform})..."
+    echo -e "${BLUE}URL:${NC} $download_url"
 
-    # 使用 -# 显示进度条，-fL 处理重定向和失败
-    if ! curl -fL# "$download_url" -o "$temp_file" 2>&1 >&2; then
-        print_error "下载失败: $download_url" >&2
-        print_info "尝试从本地 dist 目录安装..." >&2
-
-        # 如果是开发环境，尝试从本地 dist 目录复制
-        if [ -f "dist/${binary_name}" ]; then
-            cp "dist/${binary_name}" "$temp_file"
-            print_success "从本地 dist 目录复制成功" >&2
-        else
-            print_error "本地也未找到二进制文件" >&2
-            exit 1
+    # 使用 wget 显示进度（如果可用），否则用 curl
+    if command -v wget >/dev/null 2>&1; then
+        echo -e "${BLUE}使用 wget 下载（显示进度）${NC}"
+        if ! wget --progress=bar:force --show-progress -O "$temp_file" "$download_url" 2>&1; then
+            print_error "下载失败: $download_url"
+            rm -f "$temp_file"
+            return 1
         fi
+    else
+        echo -e "${BLUE}使用 curl 下载...${NC}"
+        # curl 在管道模式下不显示进度，使用 -w 显示基本信息
+        if ! curl -fL --progress-bar "$download_url" -o "$temp_file"; then
+            print_error "下载失败: $download_url"
+            rm -f "$temp_file"
+            return 1
+        fi
+        print_success "下载完成"
     fi
 
-    # 只返回文件路径（输出到 stdout）
     echo "$temp_file"
 }
 
@@ -199,6 +201,13 @@ main() {
 
     # 下载并安装
     temp_file=$(download_binary "$platform" "$latest_version")
+
+    # 检查下载是否成功
+    if [ $? -ne 0 ] || [ -z "$temp_file" ] || [ ! -f "$temp_file" ]; then
+        print_error "下载失败，安装中止"
+        exit 1
+    fi
+
     install_binary "$temp_file"
     save_version "$latest_version"
 
