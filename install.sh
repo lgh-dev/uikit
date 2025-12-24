@@ -201,9 +201,10 @@ main() {
 
     # 下载并安装
     temp_file=$(download_binary "$platform" "$latest_version")
+    download_status=$?
 
     # 检查下载是否成功
-    if [ $? -ne 0 ] || [ -z "$temp_file" ] || [ ! -f "$temp_file" ]; then
+    if [ $download_status -ne 0 ] || [ -z "$temp_file" ] || [ ! -f "$temp_file" ]; then
         print_error "下载失败，安装中止"
         exit 1
     fi
