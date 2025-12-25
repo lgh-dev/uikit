@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UIKit - AI时代的UI规范管理系统</title>
+    <!-- 引入 Inter 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* ===== 全局重置和变量 ===== */
         * {
@@ -16,43 +20,45 @@
             /* Dark Elegant v2.2.0 色彩系统 */
 
             /* 背景色（5级层次） */
-            --bg-page: #000000;          /* 页面背景 */
-            --bg-card: #121212;          /* 卡片背景 */
-            --bg-input: #1a1a1a;         /* 输入框背景 */
-            --bg-hover: #1f1f1f;         /* 悬停背景 */
-            --bg-float: #2a2a2a;         /* 浮层背景 */
+            --bg-page: #000000;        /* 页面背景 */
+            --bg-card: #121212;        /* 卡片背景 */
+            --bg-input: #1a1a1a;       /* 输入框背景 */
+            --bg-hover: #1f1f1f;       /* 悬停背景 */
+            --bg-overlay: #2a2a2a;     /* 浮层背景 */
 
             /* 文字色（5级层次） */
-            --text-primary: #ffffff;     /* 主文字 */
-            --text-secondary: #b8b8b8;   /* 次要文字 */
-            --text-tertiary: #9a9a9a;    /* 辅助文字 */
-            --text-placeholder: #6b6b6b; /* 占位文字 */
-            --text-inverse: #000000;     /* 反色文字 */
+            --text-primary: #ffffff;    /* 主文字 */
+            --text-secondary: #b8b8b8;  /* 次要文字 */
+            --text-tertiary: #9a9a9a;   /* 辅助文字 */
+            --text-placeholder: #6b6b6b;/* 占位文字 */
+            --text-inverse: #000000;    /* 反色文字 */
 
             /* 边框色（5级层次） */
             --border-invisible: rgba(255, 255, 255, 0.05);  /* 隐形边框 */
-            --border-default: rgba(255, 255, 255, 0.1);      /* 默认边框 */
-            --border-medium: rgba(255, 255, 255, 0.15);      /* 中等边框 */
-            --border-strong: rgba(255, 255, 255, 0.2);       /* 强调边框 */
-            --border-focus: #ffffff;                         /* 焦点边框 */
+            --border-default: rgba(255, 255, 255, 0.1);     /* 默认边框 */
+            --border-medium: rgba(255, 255, 255, 0.15);     /* 中等边框 */
+            --border-strong: rgba(255, 255, 255, 0.2);      /* 强调边框 */
+            --border-focus: #ffffff;                        /* 焦点边框 */
 
             /* 功能色 */
-            --color-primary: #ffffff;    /* 主强调色 */
-            --color-link: #60a5fa;       /* 链接色 */
-            --color-success: #4ade80;    /* 成功色 */
-            --color-warning: #fbbf24;    /* 警告色 */
-            --color-error: #f87171;      /* 错误色 */
-            --color-info: #60a5fa;       /* 信息色 */
+            --accent-primary: #ffffff;  /* 主强调色 */
+            --accent-link: #60a5fa;     /* 链接色 */
+            --accent-success: #4ade80;  /* 成功色 */
+            --accent-warning: #fbbf24;  /* 警告色 */
+            --accent-error: #f87171;    /* 错误色 */
+            --accent-info: #60a5fa;     /* 信息色 */
 
-            /* 派生色（交互状态用） */
-            --primary-hover: #e8e8e8;    /* 主强调色悬停 */
-            --primary-active: #d4d4d4;   /* 主强调色激活 */
-            --success-hover: #3fcc73;    /* 成功色悬停 */
-            --error-hover: #e65555;      /* 错误色悬停 */
-            --link-hover: #4a93e8;       /* 链接色悬停 */
-            --float-hover: #3a3a3a;      /* 浮层背景悬停 */
+            /* 派生色（交互状态） */
+            --accent-primary-hover: #e8e8e8;
+            --accent-primary-active: #d4d4d4;
+            --accent-link-hover: #4a93e8;
+            --accent-link-active: #3a81d6;
+            --accent-success-hover: #3fcc73;
+            --accent-error-hover: #e65555;
+            --bg-overlay-hover: #3a3a3a;
+            --bg-overlay-active: #4a4a4a;
 
-            /* 间距系统 (基数: 4px) */
+            /* 间距系统 */
             --spacing-1: 4px;
             --spacing-2: 8px;
             --spacing-3: 12px;
@@ -72,71 +78,50 @@
             --radius-xl: 16px;
             --radius-full: 9999px;
 
-            /* 阴影系统 */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.6);
-            --shadow-base: 0 4px 16px rgba(0, 0, 0, 0.7);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.8);
+            /* 阴影系统 - 基础阴影 */
+            --shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
+            --shadow-base: 0 4px 16px 0 rgba(0, 0, 0, 0.7);
+            --shadow-lg: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
 
-            /* 发光阴影 */
-            --glow-standard: 0 0 20px rgba(255, 255, 255, 0.1);
-            --glow-strong: 0 0 30px rgba(255, 255, 255, 0.2);
-            --glow-blue: 0 0 30px rgba(96, 165, 250, 0.3);
-            --glow-green: 0 0 30px rgba(74, 222, 128, 0.3);
-            --glow-red: 0 0 30px rgba(248, 113, 113, 0.3);
+            /* 阴影系统 - 发光阴影 */
+            --glow-standard: 0 0 20px 0 rgba(255, 255, 255, 0.1);
+            --glow-strong: 0 0 30px 0 rgba(255, 255, 255, 0.2);
+            --glow-link: 0 0 30px 0 rgba(96, 165, 250, 0.3);
+            --glow-success: 0 0 30px 0 rgba(74, 222, 128, 0.3);
+            --glow-error: 0 0 30px 0 rgba(248, 113, 113, 0.3);
 
             /* 焦点环 */
-            --focus-ring: 0 0 0 2px var(--border-focus);
+            --focus-ring: 0 0 0 2px var(--border-focus), var(--glow-standard);
 
-            /* 动画系统 */
+            /* 动画时长 */
             --duration-fast: 150ms;
             --duration-base: 250ms;
             --duration-slow: 400ms;
 
             /* 缓动曲线 */
-            --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-            --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
-            --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+            --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);  /* 标准 */
+            --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);  /* 减速 */
+            --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);  /* 加速 */
 
-            /* 字体系统 */
-            --font-main: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
-
-            /* 字号系统 */
-            --text-xs: 12px;
-            --text-sm: 14px;
-            --text-base: 16px;
-            --text-lg: 18px;
-            --text-xl: 20px;
-            --text-2xl: 24px;
-            --text-3xl: 30px;
-            --text-4xl: 36px;
-
-            /* 行高系统 */
-            --leading-xs: 16px;
-            --leading-sm: 20px;
-            --leading-base: 24px;
-            --leading-lg: 28px;
-            --leading-xl: 28px;
-            --leading-2xl: 32px;
-            --leading-3xl: 36px;
-            --leading-4xl: 40px;
-
-            /* 字重系统 */
-            --font-light: 300;
-            --font-regular: 400;
-            --font-medium: 500;
-            --font-semibold: 600;
-            --font-bold: 700;
+            /* 过渡 */
+            --transition-fast: var(--duration-fast) var(--ease-standard);
+            --transition-base: var(--duration-base) var(--ease-standard);
+            --transition-slow: var(--duration-slow) var(--ease-standard);
+            --transition-enter: var(--duration-base) var(--ease-decelerate);
+            --transition-exit: var(--duration-fast) var(--ease-accelerate);
         }
 
         /* ===== 基础样式 ===== */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: var(--black);
-            color: var(--white);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.5;
             font-size: 16px;
+            font-weight: 400;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* ===== 容器 ===== */
@@ -151,25 +136,27 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: var(--bg-card);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-default);
             z-index: 1000;
             transition: all var(--transition-base);
+            height: 64px;
         }
 
         nav .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: var(--spacing-5) var(--spacing-6);
+            height: 100%;
+            padding: 0 var(--spacing-6);
         }
 
         .logo {
             font-size: 24px;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--white) 0%, var(--gray-300) 100%);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -177,22 +164,44 @@
 
         .nav-links {
             display: flex;
-            gap: var(--spacing-10);
+            gap: var(--spacing-2);
             list-style: none;
+            height: 100%;
+            align-items: center;
         }
 
         .nav-links a {
-            color: var(--gray-400);
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: color var(--transition-fast);
+            padding: var(--spacing-3) var(--spacing-4);
+            transition: all var(--transition-fast);
             font-size: 14px;
             font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            transform: scaleX(0);
+            transition: transform var(--transition-base);
         }
 
         .nav-links a:hover {
-            color: var(--white);
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
         }
 
         /* ===== Hero Section ===== */
@@ -203,9 +212,10 @@
             justify-content: center;
             position: relative;
             padding: var(--spacing-16) 0;
+            margin-top: 64px; /* 导航栏高度 */
         }
 
-        /* 背景装饰 */
+        /* 背景装饰 - 多层渐变 */
         .hero::before {
             content: '';
             position: absolute;
@@ -213,7 +223,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.05) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 30% 20%, rgba(96, 165, 250, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(192, 132, 252, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
             pointer-events: none;
         }
 
@@ -229,20 +242,40 @@
             margin-bottom: var(--spacing-6);
             letter-spacing: -0.02em;
             line-height: 1.1;
+            animation: fadeInUp 0.8s var(--ease-decelerate);
         }
 
         .hero .gradient-text {
-            background: linear-gradient(135deg, var(--white) 0%, var(--gray-400) 100%);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            display: inline-block;
+            position: relative;
+        }
+
+        /* 添加发光效果 */
+        .hero .gradient-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(20px);
+            opacity: 0.5;
         }
 
         .hero .subtitle {
             font-size: 20px;
-            color: var(--gray-400);
+            color: var(--text-secondary);
             margin-bottom: var(--spacing-12);
             font-weight: 400;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s 0.1s var(--ease-decelerate) both;
         }
 
         /* ===== 按钮组 ===== */
@@ -251,56 +284,85 @@
             gap: var(--spacing-4);
             justify-content: center;
             margin-bottom: var(--spacing-12);
+            animation: fadeInUp 0.8s 0.2s var(--ease-decelerate) both;
         }
 
         .btn {
-            padding: var(--spacing-3) var(--spacing-6);
+            height: 44px;
+            padding: 0 var(--spacing-6);
             border-radius: var(--radius-base);
             font-size: 16px;
             font-weight: 500;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all var(--transition-base);
             cursor: pointer;
             border: none;
             position: relative;
             overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
+        /* 主按钮 - 按照规范 */
         .btn-primary {
-            background: var(--white);
-            color: var(--black);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            background: var(--accent-primary);
+            color: var(--text-inverse);
+            box-shadow: var(--glow-standard);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            background: var(--gray-100);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2),
-                        0 4px 16px rgba(0, 0, 0, 0.7);
+            background: var(--accent-primary-hover);
+            box-shadow: var(--glow-strong), var(--shadow-sm);
         }
 
+        .btn-primary:active {
+            transform: translateY(0);
+            background: var(--accent-primary-active);
+            box-shadow: var(--glow-standard);
+        }
+
+        .btn-primary:focus-visible {
+            outline: none;
+            box-shadow: var(--focus-ring);
+        }
+
+        /* 次要按钮 - 按照规范 */
         .btn-secondary {
             background: transparent;
-            color: var(--white);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            border: 1px solid var(--border-focus);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            border-color: var(--border-focus);
+            box-shadow: var(--glow-standard);
+        }
+
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+        }
+
+        .btn-secondary:focus-visible {
+            outline: none;
+            box-shadow: var(--focus-ring);
         }
 
         /* ===== 代码示例 ===== */
         .code-preview {
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
+            background: var(--bg-card);
+            border: 1px solid var(--border-default);
             border-radius: var(--radius-lg);
             padding: var(--spacing-6);
             margin-top: var(--spacing-8);
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.8s 0.3s var(--ease-decelerate) both;
+            box-shadow: var(--shadow-lg);
         }
 
         .code-preview::before {
@@ -310,27 +372,27 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, var(--border-default), transparent);
         }
 
         .code-preview pre {
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            color: var(--gray-200);
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+            color: var(--text-secondary);
             font-size: 14px;
             line-height: 1.6;
             overflow-x: auto;
         }
 
         .code-preview .comment {
-            color: var(--gray-500);
+            color: var(--text-placeholder);
         }
 
         .code-preview .keyword {
-            color: var(--purple);
+            color: #c084fc;
         }
 
         .code-preview .string {
-            color: var(--green);
+            color: var(--accent-success);
         }
 
         /* ===== 特性卡片 ===== */
@@ -347,15 +409,17 @@
         }
 
         .feature-card {
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
+            background: var(--bg-card);
+            border: 1px solid var(--border-default);
             border-radius: var(--radius-lg);
             padding: var(--spacing-8);
             transition: all var(--transition-base);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-lg);
         }
 
+        /* 顶部高光线 */
         .feature-card::before {
             content: '';
             position: absolute;
@@ -363,15 +427,15 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, var(--border-default), transparent);
             opacity: 0;
             transition: opacity var(--transition-base);
         }
 
+        /* 悬停效果 - 按规范 */
         .feature-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05),
-                        0 8px 32px rgba(0, 0, 0, 0.8);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-lg), var(--glow-standard);
             transform: translateY(-2px);
         }
 
@@ -382,26 +446,35 @@
         .feature-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            background: var(--bg-hover);
+            border: 1px solid var(--border-default);
             border-radius: var(--radius-base);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: var(--spacing-5);
             font-size: 24px;
+            color: var(--text-secondary);
+            transition: all var(--transition-base);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--bg-overlay);
+            border-color: var(--border-medium);
+            color: var(--text-primary);
         }
 
         .feature-card h3 {
             font-size: 20px;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: var(--spacing-3);
-            color: var(--white);
+            color: var(--text-primary);
         }
 
         .feature-card p {
-            color: var(--gray-400);
+            color: var(--text-secondary);
             font-size: 14px;
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
         /* ===== 设计规范市场 ===== */
@@ -702,6 +775,17 @@
         }
 
         /* ===== 动画 ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -712,12 +796,33 @@
             50% { opacity: 1; }
         }
 
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
         .floating {
             animation: float 3s ease-in-out infinite;
         }
 
         .glowing {
             animation: glow 2s ease-in-out infinite;
+        }
+
+        /* 闪光效果 */
+        .shimmer {
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                transparent 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
         }
 
         /* ===== 响应式 ===== */
@@ -777,7 +882,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1>
-                    <span class="gradient-text">UIKit</span><br>
+                    <span class="gradient-text" data-text="UIKit">UIKit</span><br>
                     AI 时代的 UI 规范管理系统
                 </h1>
                 <p class="subtitle">
@@ -1121,11 +1226,13 @@
             const currentScroll = window.pageYOffset;
 
             if (currentScroll > 100) {
-                nav.style.background = 'rgba(0, 0, 0, 0.95)';
-                nav.style.backdropFilter = 'blur(20px)';
+                nav.style.background = 'rgba(18, 18, 18, 0.95)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+                nav.style.boxShadow = '0 4px 16px 0 rgba(0, 0, 0, 0.7)';
             } else {
-                nav.style.background = 'rgba(0, 0, 0, 0.8)';
-                nav.style.backdropFilter = 'blur(20px)';
+                nav.style.background = '';
+                nav.style.borderBottom = '';
+                nav.style.boxShadow = '';
             }
 
             lastScroll = currentScroll;
