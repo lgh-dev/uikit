@@ -107,22 +107,38 @@ main() {
 
     # 确认卸载
     local confirmed=false
+    local reply=""
 
     # 如果在交互式终端中，需要用户确认
     if [ -t 0 ]; then
-        read -p "确定要继续吗？(y/N): " -n 1 -r
+        read -p "确定要继续吗？(y/N): " -n 1 -r reply
         echo ""
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
+        if [[ $reply =~ ^[Yy]$ ]]; then
             confirmed=true
         fi
     elif [ "$auto_yes" = true ]; then
         print_info "自动确认模式"
         confirmed=true
     else
-        # 非交互式终端，直接继续，让 sudo 提示密码
-        confirmed=true
-        echo -e "${YELLOW}继续执行卸载...（sudo 将提示输入密码）${NC}"
+        # 非交互式终端：提示用户，5秒后自动继续
+        echo -e "${YELLOW}将在 5 秒后自动执行卸载...${NC}"
+        echo -e "${BLUE}按 Ctrl+C 取消，或按 y 立即执行${NC}"
         echo ""
+        for i in 1 2 3 4 5; do
+            sleep 1
+            # 尝试读取输入
+            if read -t 1 -n 1 -r reply 2>/dev/null; then
+                echo ""
+                if [[ $reply =~ ^[Yy]$ ]]; then
+                    confirmed=true
+                fi
+                break
+            fi
+        done
+        if [ "$confirmed" = false ]; then
+            confirmed=true
+            echo -e "${BLUE}执行卸载...${NC}"
+        fi
     fi
 
     if [ "$confirmed" = false ]; then
