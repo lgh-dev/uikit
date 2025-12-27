@@ -142,6 +142,7 @@ main() {
     echo ""
     echo "查看帮助: uikit -h"
     echo "查看状态: uikit status"
+    echo "卸载工具: curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | bash"
     echo ""
     echo "总大小: ~15 KB (vs 旧版本 57 MB)"
     echo ""

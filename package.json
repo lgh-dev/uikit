@@ -4,7 +4,8 @@
   "description": "UIKit - AI时代的UI规范管理系统 (Shell版本)",
   "type": "module",
   "scripts": {
-    "install": "./install.sh"
+    "install": "./install.sh",
+    "uninstall": "./uninstall.sh"
   },
   "keywords": [
     "uikit",

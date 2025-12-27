@@ -25,6 +25,13 @@ UIKit 是专为 AI 编程助手设计的 UI 规范管理系统。通过简单的
 curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/install.sh | bash
 ```
 
+### 卸载
+
+```bash
+# 卸载 UIKit CLI（从系统中完全删除）
+curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | bash
+```
+
 ### 初始化
 
 ```bash
