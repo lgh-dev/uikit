@@ -2,8 +2,6 @@
 # UIKit CLI 卸载脚本
 # 从系统中完全删除 UIKit CLI 工具
 
-set -e
-
 # 配置
 INSTALL_BIN="/usr/local/bin"
 INSTALL_SHARE="/usr/local/share/uikit"
@@ -38,7 +36,6 @@ is_installed() {
 
 # 检查是否需要 sudo
 need_sudo() {
-    # 检查文件所有者是否为当前用户
     if [ -f "${INSTALL_BIN}/uikit" ]; then
         local owner=$(stat -f "%Su" "${INSTALL_BIN}/uikit" 2>/dev/null)
         if [ "$owner" != "$(whoami)" ]; then
@@ -51,39 +48,10 @@ need_sudo() {
             return 0
         fi
     fi
-    # 检查目录是否可写
     if [ ! -w "$INSTALL_BIN" ] || [ ! -w "$(dirname "$INSTALL_SHARE")" ]; then
         return 0
     fi
     return 1
-}
-
-# 执行删除操作（支持 sudo）
-delete_file_or_dir() {
-    local path="$1"
-    local description="$2"
-
-    if [ -e "$path" ]; then
-        if need_sudo; then
-            if sudo rm -rf "$path" 2>/dev/null; then
-                print_success "${description}"
-                return 0
-            else
-                print_error "${description} 失败"
-                return 1
-            fi
-        else
-            if rm -rf "$path" 2>/dev/null; then
-                print_success "${description}"
-                return 0
-            else
-                print_error "${description} 失败"
-                return 1
-            fi
-        fi
-    else
-        print_info "${description}（不存在，跳过）"
-    fi
 }
 
 # 主卸载流程
@@ -101,13 +69,11 @@ main() {
                 echo "用法: uninstall.sh [选项]"
                 echo ""
                 echo "选项:"
-                echo "  -y, --yes   自动确认卸载（用于脚本调用）"
+                echo "  -y, --yes   自动确认卸载"
                 echo "  -h, --help  显示帮助信息"
                 echo ""
                 echo "示例:"
-                echo "  ./uninstall.sh              # 交互式卸载"
-                echo "  ./uninstall.sh -y           # 自动确认卸载"
-                echo "  curl ... | sudo bash        # 管道方式（需要 sudo 密码）"
+                echo "  curl ... | sudo bash        # 一键卸载（需要 sudo 密码）"
                 exit 0
                 ;;
             *)
@@ -140,46 +106,54 @@ main() {
     echo ""
 
     # 确认卸载
-    need_confirm=true
+    local confirmed=false
 
     # 如果在交互式终端中，需要用户确认
     if [ -t 0 ]; then
         read -p "确定要继续吗？(y/N): " -n 1 -r
         echo ""
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            print_info "已取消卸载"
-            exit 0
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            confirmed=true
         fi
-        need_confirm=false
     elif [ "$auto_yes" = true ]; then
-        # 非交互式但使用 -y 参数
         print_info "自动确认模式"
-        need_confirm=false
+        confirmed=true
+    else
+        # 非交互式终端，直接继续，让 sudo 提示密码
+        confirmed=true
+        echo -e "${YELLOW}继续执行卸载...（sudo 将提示输入密码）${NC}"
+        echo ""
     fi
 
-    # 如果需要确认但不在交互式终端中，给出提示后继续
-    if [ "$need_confirm" = true ]; then
-        echo -e "${YELLOW}继续执行卸载...（如需手动确认，请使用 -y 参数）${NC}"
-        echo ""
+    if [ "$confirmed" = false ]; then
+        print_info "已取消卸载"
+        exit 0
     fi
 
     local failed=0
 
     # 删除主脚本
     print_info "删除主脚本..."
-    delete_file_or_dir "${INSTALL_BIN}/uikit" "删除 ${INSTALL_BIN}/uikit" || failed=1
+    if [ -f "${INSTALL_BIN}/uikit" ]; then
+        if need_sudo; then
+            sudo rm -f "${INSTALL_BIN}/uikit" && print_success "删除 ${INSTALL_BIN}/uikit" || { print_error "删除失败"; failed=1; }
+        else
+            rm -f "${INSTALL_BIN}/uikit" && print_success "删除 ${INSTALL_BIN}/uikit" || { print_error "删除失败"; failed=1; }
+        fi
+    else
+        print_info "${INSTALL_BIN}/uikit（不存在）"
+    fi
 
     # 删除安装目录
     print_info "删除安装目录..."
-    delete_file_or_dir "${INSTALL_SHARE}" "删除 ${INSTALL_SHARE}/" || failed=1
-
-    # 清理空目录
-    if [ -d "/usr/local/share" ] && [ -z "$(ls -A /usr/local/share 2>/dev/null)" ]; then
+    if [ -d "${INSTALL_SHARE}" ]; then
         if need_sudo; then
-            sudo rmdir /usr/local/share 2>/dev/null || true
+            sudo rm -rf "${INSTALL_SHARE}" && print_success "删除 ${INSTALL_SHARE}/" || { print_error "删除失败"; failed=1; }
         else
-            rmdir /usr/local/share 2>/dev/null || true
+            rm -rf "${INSTALL_SHARE}" && print_success "删除 ${INSTALL_SHARE}/" || { print_error "删除失败"; failed=1; }
         fi
+    else
+        print_info "${INSTALL_SHARE}/（不存在）"
     fi
 
     echo ""
