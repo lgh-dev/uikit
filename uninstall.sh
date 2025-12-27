@@ -54,6 +54,15 @@ need_sudo() {
     return 1
 }
 
+# 检测是否通过管道执行
+is_piped() {
+    # 如果 stdin 不是终端，说明是通过管道执行
+    if [ ! -t 0 ]; then
+        return 0
+    fi
+    return 1
+}
+
 # 主卸载流程
 main() {
     local auto_yes=false
@@ -84,6 +93,15 @@ main() {
                 ;;
         esac
     done
+
+    # 如果通过管道执行，先下载脚本到临时文件，然后执行
+    if is_piped; then
+        print_info "检测到管道执行模式，正在准备..."
+        local temp_file="/tmp/uikit-uninstall-$$.sh"
+        curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh -o "$temp_file"
+        chmod +x "$temp_file"
+        exec sudo "$temp_file" "$@"
+    fi
 
     echo ""
     echo "========================================="
@@ -120,21 +138,6 @@ main() {
     elif [ "$auto_yes" = true ]; then
         print_info "自动确认模式"
         confirmed=true
-    else
-        # 非交互式终端
-        print_warning "检测到非交互式终端"
-        echo ""
-        echo "如需卸载，请使用以下方式之一："
-        echo ""
-        echo "方式1：下载后执行"
-        echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh -o /tmp/uninstall.sh"
-        echo "  chmod +x /tmp/uninstall.sh && sudo /tmp/uninstall.sh"
-        echo ""
-        echo "方式2：使用 -y 参数"
-        echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh -o /tmp/uninstall.sh"
-        echo "  chmod +x /tmp/uninstall.sh && sudo /tmp/uninstall.sh -y"
-        echo ""
-        exit 1
     fi
 
     if [ "$confirmed" = false ]; then
