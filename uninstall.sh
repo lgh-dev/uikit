@@ -89,7 +89,6 @@ delete_file_or_dir() {
 # 主卸载流程
 main() {
     local auto_yes=false
-    local force_sudo=false
 
     # 解析参数
     while [[ $# -gt 0 ]]; do
@@ -98,22 +97,17 @@ main() {
                 auto_yes=true
                 shift
                 ;;
-            --sudo)
-                force_sudo=true
-                shift
-                ;;
             -h|--help)
                 echo "用法: uninstall.sh [选项]"
                 echo ""
                 echo "选项:"
                 echo "  -y, --yes   自动确认卸载（用于脚本调用）"
-                echo "  --sudo      强制使用 sudo 执行"
                 echo "  -h, --help  显示帮助信息"
                 echo ""
                 echo "示例:"
                 echo "  ./uninstall.sh              # 交互式卸载"
                 echo "  ./uninstall.sh -y           # 自动确认卸载"
-                echo "  curl ... | bash             # 管道方式（需要 sudo）"
+                echo "  curl ... | sudo bash        # 管道方式（需要 sudo 密码）"
                 exit 0
                 ;;
             *)
@@ -146,53 +140,27 @@ main() {
     echo ""
 
     # 确认卸载
-    if [ "$auto_yes" = false ]; then
-        # 检查是否在交互式终端中
-        if [ -t 0 ]; then
-            read -p "确定要继续吗？(y/N): " -n 1 -r
-            echo ""
-        else
-            # 非交互式终端，提示用户使用 -y 参数
-            print_info "检测到非交互式终端，请使用 -y 参数自动确认"
-            echo ""
-            REPLY=""
+    need_confirm=true
+
+    # 如果在交互式终端中，需要用户确认
+    if [ -t 0 ]; then
+        read -p "确定要继续吗？(y/N): " -n 1 -r
+        echo ""
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            print_info "已取消卸载"
+            exit 0
         fi
-    else
+        need_confirm=false
+    elif [ "$auto_yes" = true ]; then
+        # 非交互式但使用 -y 参数
         print_info "自动确认模式"
-        REPLY="y"
+        need_confirm=false
     fi
 
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        print_info "已取消卸载"
-        exit 0
-    fi
-
-    # 检查是否需要 sudo
-    if need_sudo || [ "$force_sudo" = true ]; then
-        print_warning "需要管理员权限进行卸载"
+    # 如果需要确认但不在交互式终端中，给出提示后继续
+    if [ "$need_confirm" = true ]; then
+        echo -e "${YELLOW}继续执行卸载...（如需手动确认，请使用 -y 参数）${NC}"
         echo ""
-        echo "如果使用管道方式安装，可能需要先获取 sudo 权限："
-        echo ""
-        echo "方案1：手动执行以下命令（推荐）："
-        echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh -o /tmp/uninstall.sh"
-        echo "  chmod +x /tmp/uninstall.sh"
-        echo "  sudo /tmp/uninstall.sh"
-        echo ""
-        echo "方案2：如果已配置无密码 sudo，可以直接运行："
-        echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | sudo bash"
-        echo ""
-        echo "方案3：克隆仓库后本地运行："
-        echo "  git clone https://github.com/lgh-dev/uikit.git"
-        echo "  cd uikit && sudo ./uninstall.sh"
-        echo ""
-
-        # 检查是否可以获取 sudo 权限
-        if sudo -n true 2>/dev/null; then
-            print_info "检测到无密码 sudo，将自动执行..."
-        else
-            print_info "请手动执行上述命令之一"
-            exit 1
-        fi
     fi
 
     local failed=0
@@ -207,7 +175,7 @@ main() {
 
     # 清理空目录
     if [ -d "/usr/local/share" ] && [ -z "$(ls -A /usr/local/share 2>/dev/null)" ]; then
-        if need_sudo || [ "$force_sudo" = true ]; then
+        if need_sudo; then
             sudo rmdir /usr/local/share 2>/dev/null || true
         else
             rmdir /usr/local/share 2>/dev/null || true
