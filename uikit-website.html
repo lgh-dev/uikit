@@ -3,132 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UISpec - AI时代的UI规范管理系统</title>
-    <!-- 引入 Inter 字体 -->
+    <title>UISpec - AI 时代的 UI 规范管理系统</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* ===== 全局重置和变量 ===== */
+        /* ===== 主题系统 - Dark Sapphire ===== */
+        :root {
+            /* 默认主题：蓝宝石 */
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-glow: rgba(59, 130, 246, 0.3);
+            --primary-glow-sm: rgba(59, 130, 246, 0.2);
+
+            /* 辅助色 - 冰晶白 */
+            --accent-400: #a5f3fc;
+            --accent-500: #67e8f9;
+            --accent-glow: rgba(103, 232, 249, 0.25);
+
+            /* 背景色 - 暗黑蓝黑 */
+            --bg-primary: #0a0f1c;
+            --bg-secondary: #0f172a;
+            --bg-tertiary: #1e293b;
+            --bg-glass: rgba(15, 23, 42, 0.6);
+
+            /* 文字色 */
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+
+            /* 边框色 */
+            --border-light: #334155;
+            --border-default: #1e293b;
+            --border-glass: rgba(148, 163, 184, 0.15);
+
+            /* 间距 - 4px 基数 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+
+            /* 圆角 */
+            --radius-base: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+
+            /* 阴影 */
+            --shadow-glow: 0 0 20px var(--primary-glow);
+            --shadow-glow-sm: 0 0 12px var(--primary-glow-sm);
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+
+            /* 动效 */
+            --transition-fast: 150ms cubic-bezier(0, 0, 0.2, 1);
+            --transition-base: 200ms cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        /* ===== 玻璃拟态 ===== */
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+        }
+
+        /* ===== 冰晶高光 ===== */
+        .ice-highlight {
+            position: relative;
+        }
+        .ice-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-500), transparent);
+            opacity: 0.6;
+        }
+
+        /* ===== 绿宝石主题（保留） */
+        [data-theme="emerald"] {
+            --primary-400: #34d399;
+            --primary-500: #10b981;
+            --primary-600: #059669;
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            --primary-glow-sm: rgba(16, 185, 129, 0.2);
+            --accent-500: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.3);
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-tertiary: #1a1a24;
+            --bg-glass: rgba(17, 17, 24, 0.6);
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-tertiary: #606070;
+            --border-light: #2a2a3a;
+            --border-default: #1e1e2e;
+            --border-glass: rgba(160, 160, 176, 0.15);
+        }
+
+        /* 紫罗兰主题 */
+        [data-theme="violet"] {
+            --primary-400: #c084fc;
+            --primary-500: #a855f7;
+            --primary-600: #9333ea;
+            --primary-glow: rgba(168, 85, 247, 0.3);
+            --primary-glow-sm: rgba(168, 85, 247, 0.2);
+            --accent-500: #ec4899;
+            --accent-glow: rgba(236, 72, 153, 0.3);
+        }
+
+        /* 日出橙主题 */
+        [data-theme="orange"] {
+            --primary-400: #fbbf24;
+            --primary-500: #f59e0b;
+            --primary-600: #d97706;
+            --primary-glow: rgba(245, 158, 11, 0.3);
+            --primary-glow-sm: rgba(245, 158, 11, 0.2);
+            --accent-500: #ef4444;
+            --accent-glow: rgba(239, 68, 68, 0.3);
+        }
+
+        /* 玫瑰红主题 */
+        [data-theme="rose"] {
+            --primary-400: #fb7185;
+            --primary-500: #f43f5e;
+            --primary-600: #e11d48;
+            --primary-glow: rgba(244, 63, 94, 0.3);
+            --primary-glow-sm: rgba(244, 63, 94, 0.2);
+            --accent-500: #f97316;
+            --accent-glow: rgba(249, 115, 22, 0.3);
+        }
+
+        /* 青绿色主题 */
+        [data-theme="teal"] {
+            --primary-400: #2dd4bf;
+            --primary-500: #14b8a6;
+            --primary-600: #0d9488;
+            --primary-glow: rgba(20, 184, 166, 0.3);
+            --primary-glow-sm: rgba(20, 184, 166, 0.2);
+            --accent-500: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            /* Dark Elegant v2.2.0 色彩系统 */
-
-            /* 背景色（5级层次） */
-            --bg-page: #000000;        /* 页面背景 */
-            --bg-card: #121212;        /* 卡片背景 */
-            --bg-input: #1a1a1a;       /* 输入框背景 */
-            --bg-hover: #1f1f1f;       /* 悬停背景 */
-            --bg-overlay: #2a2a2a;     /* 浮层背景 */
-
-            /* 文字色（5级层次） */
-            --text-primary: #ffffff;    /* 主文字 */
-            --text-secondary: #b8b8b8;  /* 次要文字 */
-            --text-tertiary: #9a9a9a;   /* 辅助文字 */
-            --text-placeholder: #6b6b6b;/* 占位文字 */
-            --text-inverse: #000000;    /* 反色文字 */
-
-            /* 边框色（5级层次） */
-            --border-invisible: rgba(255, 255, 255, 0.05);  /* 隐形边框 */
-            --border-default: rgba(255, 255, 255, 0.1);     /* 默认边框 */
-            --border-medium: rgba(255, 255, 255, 0.15);     /* 中等边框 */
-            --border-strong: rgba(255, 255, 255, 0.2);      /* 强调边框 */
-            --border-focus: #ffffff;                        /* 焦点边框 */
-
-            /* 功能色 */
-            --accent-primary: #ffffff;  /* 主强调色 */
-            --accent-link: #60a5fa;     /* 链接色 */
-            --accent-success: #4ade80;  /* 成功色 */
-            --accent-warning: #fbbf24;  /* 警告色 */
-            --accent-error: #f87171;    /* 错误色 */
-            --accent-info: #60a5fa;     /* 信息色 */
-
-            /* 派生色（交互状态） */
-            --accent-primary-hover: #e8e8e8;
-            --accent-primary-active: #d4d4d4;
-            --accent-link-hover: #4a93e8;
-            --accent-link-active: #3a81d6;
-            --accent-success-hover: #3fcc73;
-            --accent-error-hover: #e65555;
-            --bg-overlay-hover: #3a3a3a;
-            --bg-overlay-active: #4a4a4a;
-
-            /* 间距系统 */
-            --spacing-1: 4px;
-            --spacing-2: 8px;
-            --spacing-3: 12px;
-            --spacing-4: 16px;
-            --spacing-5: 20px;
-            --spacing-6: 24px;
-            --spacing-8: 32px;
-            --spacing-10: 40px;
-            --spacing-12: 48px;
-            --spacing-16: 64px;
-
-            /* 圆角系统 */
-            --radius-none: 0;
-            --radius-sm: 4px;
-            --radius-base: 8px;
-            --radius-lg: 12px;
-            --radius-xl: 16px;
-            --radius-full: 9999px;
-
-            /* 阴影系统 - 基础阴影 */
-            --shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.6);
-            --shadow-base: 0 4px 16px 0 rgba(0, 0, 0, 0.7);
-            --shadow-lg: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-
-            /* 阴影系统 - 发光阴影 */
-            --glow-standard: 0 0 20px 0 rgba(255, 255, 255, 0.1);
-            --glow-strong: 0 0 30px 0 rgba(255, 255, 255, 0.2);
-            --glow-link: 0 0 30px 0 rgba(96, 165, 250, 0.3);
-            --glow-success: 0 0 30px 0 rgba(74, 222, 128, 0.3);
-            --glow-error: 0 0 30px 0 rgba(248, 113, 113, 0.3);
-
-            /* 焦点环 */
-            --focus-ring: 0 0 0 2px var(--border-focus), var(--glow-standard);
-
-            /* 动画时长 */
-            --duration-fast: 150ms;
-            --duration-base: 250ms;
-            --duration-slow: 400ms;
-
-            /* 缓动曲线 */
-            --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);  /* 标准 */
-            --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);  /* 减速 */
-            --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);  /* 加速 */
-
-            /* 过渡 */
-            --transition-fast: var(--duration-fast) var(--ease-standard);
-            --transition-base: var(--duration-base) var(--ease-standard);
-            --transition-slow: var(--duration-slow) var(--ease-standard);
-            --transition-enter: var(--duration-base) var(--ease-decelerate);
-            --transition-exit: var(--duration-fast) var(--ease-accelerate);
-        }
-
-        /* ===== 基础样式 ===== */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-page);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.6;
             font-size: 16px;
-            font-weight: 400;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ===== 容器 ===== */
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0 var(--spacing-6);
+            padding: 0 var(--spacing-lg);
         }
 
         /* ===== 导航栏 ===== */
@@ -136,11 +176,11 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-default);
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
             z-index: 1000;
-            transition: all var(--transition-base);
             height: 64px;
         }
 
@@ -149,59 +189,46 @@
             justify-content: space-between;
             align-items: center;
             height: 100%;
-            padding: 0 var(--spacing-6);
         }
 
         .logo {
             font-size: 24px;
             font-weight: 600;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px var(--primary-glow);
         }
 
         .nav-links {
             display: flex;
-            gap: var(--spacing-2);
+            gap: var(--spacing-sm);
             list-style: none;
-            height: 100%;
-            align-items: center;
         }
 
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            padding: var(--spacing-3) var(--spacing-4);
-            transition: all var(--transition-fast);
+            padding: var(--spacing-sm) var(--spacing-md);
             font-size: 14px;
             font-weight: 500;
-            position: relative;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transform: scaleX(0);
-            transition: transform var(--transition-base);
+            border-radius: var(--radius-base);
+            transition: all var(--transition-fast);
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
-            background: var(--bg-hover);
+            color: var(--primary-400);
+            background: color-mix(in srgb, var(--primary-500) 10%, transparent);
         }
 
-        .nav-links a:hover::after {
-            transform: scaleX(1);
+        .nav-links a:active {
+            transform: scale(0.98);
+        }
+
+        .nav-links a:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-500), var(--shadow-glow-sm);
         }
 
         /* ===== Hero Section ===== */
@@ -211,22 +238,28 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: var(--spacing-16) 0;
-            margin-top: 64px; /* 导航栏高度 */
+            padding: var(--spacing-3xl) 0;
+            margin-top: 64px;
         }
 
-        /* 背景装饰 - 多层渐变 */
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background:
-                radial-gradient(circle at 30% 20%, rgba(96, 165, 250, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 70% 80%, rgba(192, 132, 252, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+                radial-gradient(circle at 30% 20%, var(--primary-glow) 15%, transparent 40%),
+                radial-gradient(circle at 70% 80%, var(--accent-glow) 10%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--primary-glow-sm) 1px, transparent 1px),
+                linear-gradient(90deg, var(--primary-glow-sm) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
         }
 
@@ -236,62 +269,314 @@
             z-index: 1;
         }
 
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: color-mix(in srgb, var(--primary-500) 10%, transparent);
+            border: 1px solid color-mix(in srgb, var(--primary-500) 20%, transparent);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: 9999px;
+            font-size: 14px;
+            color: var(--primary-400);
+            margin-bottom: var(--spacing-lg);
+        }
+
         .hero h1 {
-            font-size: 72px;
-            font-weight: 300;
-            margin-bottom: var(--spacing-6);
-            letter-spacing: -0.02em;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: -0.03em;
             line-height: 1.1;
-            animation: fadeInUp 0.8s var(--ease-decelerate);
         }
 
         .hero .gradient-text {
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            background: linear-gradient(135deg, var(--primary-400), var(--primary-500), var(--accent-500));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: inline-block;
-            position: relative;
-        }
-
-        /* 添加发光效果 */
-        .hero .gradient-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: blur(20px);
-            opacity: 0.5;
+            filter: drop-shadow(0 0 30px var(--primary-glow));
         }
 
         .hero .subtitle {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-secondary);
-            margin-bottom: var(--spacing-12);
-            font-weight: 400;
-            line-height: 1.6;
-            animation: fadeInUp 0.8s 0.1s var(--ease-decelerate) both;
+            margin-bottom: var(--spacing-2xl);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
+
+        /* ===== 安装命令 ===== */
+        .install-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            box-shadow: var(--shadow-card), 0 0 40px var(--primary-glow-sm);
+        }
+
+        .install-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-500), transparent);
+            opacity: 0.5;
+        }
+
+        .install-box code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            color: var(--primary-400);
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-base);
+            transition: all var(--transition-fast);
+        }
+
+        .copy-btn:hover {
+            color: var(--primary-400);
+            background: color-mix(in srgb, var(--primary-500) 10%, transparent);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
+
+        .copy-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-500);
+            border-radius: var(--radius-base);
+        }
+
+        /* ===== 统计数字 ===== */
+        .stats {
+            display: flex;
+            gap: var(--spacing-2xl);
+            justify-content: center;
+            margin-top: var(--spacing-3xl);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-400);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+
+        /* ===== Section ===== */
+        .section {
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== 特性卡片 ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-500), transparent);
+            opacity: 0.5;
+            transition: opacity var(--transition-base);
+        }
+
+        .feature-card:hover {
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-card), var(--shadow-glow-sm);
+            transform: translateY(-2px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .feature-card:focus {
+            outline: none;
+            box-shadow: var(--shadow-card), var(--shadow-glow-sm), 0 0 0 2px var(--primary-500);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: color-mix(in srgb, var(--primary-500) 10%, transparent);
+            border: 1px solid color-mix(in srgb, var(--primary-500) 20%, transparent);
+            border-radius: var(--radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-400);
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== 命令展示 ===== */
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .command-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            transition: all var(--transition-base);
+        }
+
+        .command-card:hover {
+            border-color: color-mix(in srgb, var(--primary-500) 30%, transparent);
+        }
+
+        .command-card.active {
+            border-color: var(--primary-500);
+            background: color-mix(in srgb, var(--primary-500) 8%, transparent);
+        }
+
+        .command-card:active {
+            transform: scale(0.98);
+        }
+
+        .command-card:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-500), var(--shadow-glow-sm);
+        }
+
+        .command-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-400);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .command-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .command-example {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-base);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* ===== 目录树 ===== */
+        .tree-view {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        .tree-folder { color: var(--primary-400); }
+        .tree-file { color: var(--text-secondary); }
+        .tree-comment { color: var(--text-tertiary); font-style: italic; }
+        .tree-indent { margin-left: var(--spacing-md); }
 
         /* ===== 按钮组 ===== */
         .button-group {
             display: flex;
-            gap: var(--spacing-4);
+            gap: var(--spacing-md);
             justify-content: center;
-            margin-bottom: var(--spacing-12);
-            animation: fadeInUp 0.8s 0.2s var(--ease-decelerate) both;
+            margin-bottom: var(--spacing-2xl);
+            flex-wrap: wrap;
         }
 
         .btn {
             height: 44px;
-            padding: 0 var(--spacing-6);
+            padding: 0 var(--spacing-xl);
             border-radius: var(--radius-base);
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             text-decoration: none;
             display: inline-flex;
@@ -300,566 +585,147 @@
             transition: all var(--transition-base);
             cursor: pointer;
             border: none;
-            position: relative;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
         }
 
-        /* 主按钮 - 按照规范 */
         .btn-primary {
-            background: var(--accent-primary);
-            color: var(--text-inverse);
-            box-shadow: var(--glow-standard);
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: #fff;
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            background: var(--accent-primary-hover);
-            box-shadow: var(--glow-strong), var(--shadow-sm);
+            box-shadow: 0 0 30px var(--primary-glow);
         }
 
         .btn-primary:active {
-            transform: translateY(0);
-            background: var(--accent-primary-active);
-            box-shadow: var(--glow-standard);
+            transform: translateY(0) scale(0.98);
         }
 
-        .btn-primary:focus-visible {
+        .btn-primary:focus {
             outline: none;
-            box-shadow: var(--focus-ring);
+            box-shadow: 0 0 20px var(--primary-glow), 0 0 0 2px var(--primary-500);
         }
 
-        /* 次要按钮 - 按照规范 */
         .btn-secondary {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid var(--border-focus);
+            border: 1px solid var(--border-light);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--border-focus);
-            box-shadow: var(--glow-standard);
+            border-color: var(--primary-500);
+            color: var(--primary-400);
         }
 
         .btn-secondary:active {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: none;
+            transform: scale(0.98);
         }
 
-        .btn-secondary:focus-visible {
+        .btn-secondary:focus {
             outline: none;
-            box-shadow: var(--focus-ring);
-        }
-
-        /* ===== 代码示例 ===== */
-        .code-preview {
-            background: var(--bg-card);
-            border: 1px solid var(--border-default);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-6);
-            margin-top: var(--spacing-8);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s 0.3s var(--ease-decelerate) both;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .code-preview::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-default), transparent);
-        }
-
-        .code-preview pre {
-            font-family: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-            overflow-x: auto;
-        }
-
-        .code-preview .comment {
-            color: var(--text-placeholder);
-        }
-
-        .code-preview .keyword {
-            color: #c084fc;
-        }
-
-        .code-preview .string {
-            color: var(--accent-success);
-        }
-
-        /* ===== 特性卡片 ===== */
-        .features {
-            padding: var(--spacing-16) 0;
-            position: relative;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--spacing-8);
-            margin-top: var(--spacing-12);
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-default);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-8);
-            transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* 顶部高光线 */
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-default), transparent);
-            opacity: 0;
-            transition: opacity var(--transition-base);
-        }
-
-        /* 悬停效果 - 按规范 */
-        .feature-card:hover {
-            border-color: var(--border-strong);
-            box-shadow: var(--shadow-lg), var(--glow-standard);
-            transform: translateY(-2px);
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--bg-hover);
-            border: 1px solid var(--border-default);
-            border-radius: var(--radius-base);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--spacing-5);
-            font-size: 24px;
-            color: var(--text-secondary);
-            transition: all var(--transition-base);
-        }
-
-        .feature-card:hover .feature-icon {
-            background: var(--bg-overlay);
-            border-color: var(--border-medium);
-            color: var(--text-primary);
-        }
-
-        .feature-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: var(--spacing-3);
-            color: var(--text-primary);
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* ===== 设计规范市场 ===== */
-        .specs-marketplace {
-            padding: var(--spacing-16) 0;
-            background: var(--gray-950);
-            position: relative;
-        }
-
-        .marketplace-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: var(--spacing-8);
-            margin-top: var(--spacing-12);
-        }
-
-        .marketplace-card {
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-8);
-            transition: all var(--transition-base);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* 顶部光线效果 */
-        .marketplace-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity var(--transition-base);
-        }
-
-        .marketplace-card:hover::before {
-            opacity: 1;
-        }
-
-        .marketplace-card:hover {
-            background: var(--gray-850);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-        }
-
-        .marketplace-card.active {
-            border-color: var(--white);
-            box-shadow: 0 0 0 1px var(--white),
-                        0 8px 32px rgba(255, 255, 255, 0.1);
-        }
-
-        .marketplace-card.active::before {
-            opacity: 1;
-        }
-
-        /* 卡片头部 */
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-6);
-        }
-
-        .card-header svg {
-            color: var(--gray-400);
-            transition: color var(--transition-fast);
-        }
-
-        .marketplace-card:hover .card-header svg {
-            color: var(--white);
-        }
-
-        /* 徽章 */
-        .spec-badge {
-            background: var(--gray-800);
-            color: var(--gray-400);
-            font-size: 12px;
-            font-weight: 500;
-            padding: 4px 8px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--gray-700);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .active-badge {
-            background: var(--white);
-            color: var(--black);
-            border-color: var(--white);
-        }
-
-        /* 卡片标题 */
-        .marketplace-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: var(--spacing-2);
-            line-height: 1.25;
-        }
-
-        .spec-subtitle {
-            font-size: 14px;
-            color: var(--gray-400);
-            margin-bottom: var(--spacing-4);
-        }
-
-        .spec-description {
-            font-size: 14px;
-            color: var(--gray-300);
-            line-height: 1.6;
-            margin-bottom: var(--spacing-6);
-        }
-
-        /* 元信息 */
-        .spec-meta {
-            display: flex;
-            gap: var(--spacing-4);
-            margin-bottom: var(--spacing-6);
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-2);
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .meta-item svg {
-            color: var(--gray-500);
-            flex-shrink: 0;
-        }
-
-        /* 色彩点 */
-        .spec-colors {
-            display: flex;
-            gap: var(--spacing-2);
-            margin-bottom: var(--spacing-6);
-        }
-
-        .color-dot {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            transition: transform var(--transition-fast);
-        }
-
-        .marketplace-card:hover .color-dot {
-            transform: scale(1.15);
-        }
-
-        /* 按钮 */
-        .spec-btn {
-            width: 100%;
-            background: transparent;
-            color: var(--white);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 24px;
-            border-radius: var(--radius-base);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-2);
-        }
-
-        .spec-btn svg {
-            transition: transform var(--transition-fast);
-        }
-
-        .spec-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
-        }
-
-        .spec-btn:hover svg {
-            transform: translateX(2px);
-        }
-
-        .marketplace-card.active .spec-btn {
-            background: var(--white);
-            color: var(--black);
-            border-color: var(--white);
-        }
-
-        .marketplace-card.active .spec-btn:hover {
-            background: var(--gray-100);
-        }
-
-        /* ===== Section Headers ===== */
-        .section-header {
-            text-align: center;
-            margin-bottom: var(--spacing-12);
-        }
-
-        .section-header h2 {
-            font-size: 48px;
-            font-weight: 300;
-            letter-spacing: -0.02em;
-            margin-bottom: var(--spacing-4);
-        }
-
-        .section-header p {
-            font-size: 18px;
-            color: var(--gray-400);
-        }
-
-        /* ===== 安装步骤 ===== */
-        .install-steps {
-            padding: var(--spacing-16) 0;
-        }
-
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-8);
-            margin-top: var(--spacing-12);
-        }
-
-        .step {
-            display: flex;
-            gap: var(--spacing-6);
-            align-items: flex-start;
-        }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: var(--gray-900);
-            border: 1px solid var(--gray-700);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            flex-shrink: 0;
-        }
-
-        .step-content h3 {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: var(--spacing-2);
-        }
-
-        .step-content p {
-            color: var(--gray-400);
-            margin-bottom: var(--spacing-3);
-        }
-
-        .step-content code {
-            display: block;
-            background: var(--gray-900);
-            border: 1px solid var(--gray-800);
-            padding: var(--spacing-3) var(--spacing-4);
-            border-radius: var(--radius-sm);
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 14px;
-            color: var(--gray-200);
+            box-shadow: 0 0 0 2px var(--primary-500), var(--shadow-glow-sm);
         }
 
         /* ===== Footer ===== */
         footer {
-            padding: var(--spacing-12) 0;
-            border-top: 1px solid var(--gray-800);
-            margin-top: var(--spacing-16);
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--border-default);
+            background: var(--bg-secondary);
         }
 
         .footer-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
         }
 
         .footer-links {
             display: flex;
-            gap: var(--spacing-8);
+            gap: var(--spacing-lg);
         }
 
         .footer-links a {
-            color: var(--gray-400);
+            color: var(--text-tertiary);
             text-decoration: none;
             font-size: 14px;
             transition: color var(--transition-fast);
         }
 
         .footer-links a:hover {
-            color: var(--white);
+            color: var(--primary-400);
+        }
+
+        .footer-links a:active {
+            transform: scale(0.98);
+        }
+
+        .footer-links a:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-500), var(--shadow-glow-sm);
+            border-radius: var(--radius-base);
+        }
+
+        /* ===== 主题切换器 ===== */
+        .theme-switcher {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .theme-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            padding: 2px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: var(--bg-tertiary);
+        }
+
+        .theme-btn .theme-color {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-btn.active {
+            border-color: var(--primary-500);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .theme-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-500), var(--shadow-glow-sm);
         }
 
         /* ===== 动画 ===== */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes glow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
-        }
-
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .glowing {
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        /* 闪光效果 */
-        .shimmer {
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.05) 50%,
-                transparent 100%
-            );
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
+        .animate-in {
+            animation: fadeInUp 0.6s cubic-bezier(0, 0, 0.2, 1) forwards;
         }
 
         /* ===== 响应式 ===== */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 48px;
-            }
-
-            .hero .subtitle {
-                font-size: 18px;
-            }
-
-            .section-header h2 {
-                font-size: 36px;
-            }
-
-            .button-group {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 200px;
-                text-align: center;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .marketplace-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero h1 { font-size: 36px; }
+            .hero .subtitle { font-size: 15px; }
+            .section-header h2 { font-size: 28px; }
+            .nav-links { display: none; }
+            .stats { flex-wrap: wrap; gap: var(--spacing-lg); }
+            .button-group { flex-direction: column; align-items: center; }
+            .btn { width: 220px; }
         }
     </style>
 </head>
@@ -870,326 +736,178 @@
             <div class="logo">UISpec</div>
             <ul class="nav-links">
                 <li><a href="#features">特性</a></li>
-                <li><a href="#specs">规范</a></li>
-                <li><a href="#install">安装</a></li>
+                <li><a href="#commands">命令</a></li>
+                <li><a href="#structure">结构</a></li>
                 <li><a href="https://github.com/lgh-dev/uispec">GitHub</a></li>
             </ul>
+            <!-- 主题切换器 -->
+            <div class="theme-switcher">
+                <button class="theme-btn" data-theme="emerald" title="绿宝石">
+                    <span class="theme-color" style="background: #10b981;"></span>
+                </button>
+                <button class="theme-btn active" data-theme="blue" title="蓝宝石">
+                    <span class="theme-color" style="background: #3b82f6;"></span>
+                </button>
+                <button class="theme-btn" data-theme="violet" title="紫罗兰">
+                    <span class="theme-color" style="background: #a855f7;"></span>
+                </button>
+                <button class="theme-btn" data-theme="orange" title="日出橙">
+                    <span class="theme-color" style="background: #f59e0b;"></span>
+                </button>
+                <button class="theme-btn" data-theme="rose" title="玫瑰红">
+                    <span class="theme-color" style="background: #f43f5e;"></span>
+                </button>
+                <button class="theme-btn" data-theme="teal" title="青绿色">
+                    <span class="theme-color" style="background: #14b8a6;"></span>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>
-                    <span class="gradient-text" data-text="UISpec">UISpec</span><br>
-                    AI 时代的 UI 规范管理系统
+                <div class="hero-badge animate-in">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                    v2.0.0
+                </div>
+                <h1 class="animate-in" style="animation-delay: 0.1s;">
+                    <span class="gradient-text">UISpec</span>
                 </h1>
-                <p class="subtitle">
-                    一键安装，三个命令，五套规范<br>
+                <p class="subtitle animate-in" style="animation-delay: 0.2s;">
+                    专为 AI 编程助手设计的 UI 规范管理系统<br>
                     让 AI 生成的界面始终保持一致的设计语言
                 </p>
-
-                <div class="button-group">
-                    <a href="#install" class="btn btn-primary">快速开始</a>
+                <div class="button-group animate-in" style="animation-delay: 0.3s;">
+                    <a href="#install" class="btn btn-primary">快速安装</a>
                     <a href="https://github.com/lgh-dev/uispec" class="btn btn-secondary">查看源码</a>
                 </div>
-
-                <!-- 代码预览 -->
-                <div class="code-preview">
-                    <pre><code><span class="comment"># 一键安装</span>
-./quick-install.sh
-
-<span class="comment"># 选择设计规范</span>
-<span class="keyword">/uispec-switch</span>
-
-<span class="comment"># 按规范开发</span>
-<span class="keyword">/uispec-do</span> <span class="string">创建登录页面</span>
-
-<span class="comment"># 审查合规性</span>
-<span class="keyword">/uispec-check</span></code></pre>
+                <div class="install-box animate-in" style="animation-delay: 0.4s;">
+                    <code>curl -fsSL https://raw.githubusercontent.com/lgh-dev/uispec/main/install.sh | bash</code>
+                    <button class="copy-btn" onclick="copyInstall()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </button>
+                </div>
+                <div class="stats animate-in" style="animation-delay: 0.5s;">
+                    <div class="stat">
+                        <div class="stat-value">32KB</div>
+                        <div class="stat-label">极简体积</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">5+</div>
+                        <div class="stat-label">设计规范</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">纯 Shell</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">AI 命令</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 特性 -->
-    <section id="features" class="features">
+    <section id="features" class="section">
         <div class="container">
             <div class="section-header">
-                <h2>强大而优雅</h2>
-                <p>专为 AI 编程助手设计的 UI 规范管理系统</p>
+                <h2>核心特性</h2>
+                <p>为 AI 时代打造的设计规范管理方案</p>
             </div>
-
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                     </div>
                     <h3>极速安装</h3>
-                    <p>UISpec CLI 采用纯 Shell 脚本构建，一键安装。支持 Claude Code 和 Qoder 平台。</p>
+                    <p>纯 Shell 脚本，无需编译，秒级安装。零依赖，仅需系统自带的 bash。</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
                     </div>
-                    <h3>可扩展规范</h3>
-                    <p>内置五套专业设计规范，支持动态加载。你可以添加自己的规范文件，系统会自动识别。</p>
+                    <h3>多规范支持</h3>
+                    <p>内置多套专业设计规范，覆盖不同场景，支持自定义扩展。</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 0110 10"/><path d="M12 12 12 2"/><path d="M12 12 20 12"/></svg>
                     </div>
-                    <h3>多平台支持</h3>
-                    <p>目前支持 Claude Code 和 Qoder，未来将支持 Cursor、Windsurf 等更多 AI 编程工具。</p>
+                    <h3>AI 工具集成</h3>
+                    <p>无缝集成 Claude Code 和 Qoder，为 AI 编程助手提供标准化设计参考。</p>
                 </div>
-
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    </div>
-                    <h3>实时生效</h3>
-                    <p>选择规范后立即生效，所有后续开发都会自动应用选定的设计系统。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                    </div>
-                    <h3>智能审查</h3>
-                    <p>自动审查代码是否符合规范，提供详细的改进建议和修复方案。</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 4v16"/></svg>
                     </div>
                     <h3>框架无关</h3>
-                    <p>纯设计语言描述，支持 React、Vue、HTML 等任何技术栈，真正的通用解决方案。</p>
+                    <p>纯设计语言描述，支持 React、Vue、HTML 等任何技术栈。</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 设计规范市场 -->
-    <section id="specs" class="specs-marketplace">
+    <!-- 命令 -->
+    <section id="commands" class="section" style="background: var(--bg-secondary);">
         <div class="container">
             <div class="section-header">
-                <h2>设计规范市场</h2>
-                <p>五套专业规范，覆盖不同应用场景</p>
+                <h2>核心命令</h2>
+                <p>重启 AI 工具后即可使用</p>
             </div>
-
-            <div class="marketplace-grid">
-                <!-- Modern Minimal -->
-                <div class="marketplace-card" data-spec="modern-minimal">
-                    <div class="card-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                        <span class="spec-badge">流行</span>
-                    </div>
-                    <h3>Modern Minimal</h3>
-                    <p class="spec-subtitle">现代简约</p>
-                    <p class="spec-description">少即是多，用最简洁的视觉语言传达最清晰的信息</p>
-
-                    <div class="spec-meta">
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                            <span>SaaS产品</span>
-                        </div>
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                            <span>工具应用</span>
-                        </div>
-                    </div>
-
-                    <div class="spec-colors">
-                        <div class="color-dot" style="background: #6172f3;"></div>
-                        <div class="color-dot" style="background: #ffffff; border: 1px solid rgba(255,255,255,0.1);"></div>
-                        <div class="color-dot" style="background: #f5f5f5;"></div>
-                        <div class="color-dot" style="background: #1a1a1a;"></div>
-                    </div>
-
-                    <button class="spec-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                        查看详情
-                    </button>
+            <div class="commands-grid">
+                <div class="command-card active">
+                    <div class="command-name">/uispec-switch</div>
+                    <div class="command-desc">选择设计规范</div>
+                    <div class="command-example">/uispec-switch dark-elegant</div>
                 </div>
-
-                <!-- Dark Elegant -->
-                <div class="marketplace-card active" data-spec="dark-elegant">
-                    <div class="card-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                        <span class="spec-badge active-badge">当前</span>
-                    </div>
-                    <h3>Dark Elegant</h3>
-                    <p class="spec-subtitle">暗黑优雅</p>
-                    <p class="spec-description">精致、神秘、高对比，在黑暗中绽放优雅</p>
-
-                    <div class="spec-meta">
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
-                            <span>开发IDE</span>
-                        </div>
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-                            <span>设计工具</span>
-                        </div>
-                    </div>
-
-                    <div class="spec-colors">
-                        <div class="color-dot" style="background: #000000;"></div>
-                        <div class="color-dot" style="background: #ffffff;"></div>
-                        <div class="color-dot" style="background: #60a5fa;"></div>
-                        <div class="color-dot" style="background: #c084fc;"></div>
-                    </div>
-
-                    <button class="spec-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                        查看详情
-                    </button>
+                <div class="command-card">
+                    <div class="command-name">/uispec-create</div>
+                    <div class="command-desc">创建新的设计规范</div>
+                    <div class="command-example">/uispec-create 现代简约风格</div>
                 </div>
-
-                <!-- Creative Playful -->
-                <div class="marketplace-card" data-spec="creative-playful">
-                    <div class="card-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/></svg>
-                        <span class="spec-badge">有趣</span>
-                    </div>
-                    <h3>Creative Playful</h3>
-                    <p class="spec-subtitle">创意趣味</p>
-                    <p class="spec-description">让每一次交互都充满惊喜和乐趣</p>
-
-                    <div class="spec-meta">
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                            <span>教育产品</span>
-                        </div>
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>
-                            <span>创意工具</span>
-                        </div>
-                    </div>
-
-                    <div class="spec-colors">
-                        <div class="color-dot" style="background: #7c3aed;"></div>
-                        <div class="color-dot" style="background: #f59e0b;"></div>
-                        <div class="color-dot" style="background: #ec4899;"></div>
-                        <div class="color-dot" style="background: #10b981;"></div>
-                    </div>
-
-                    <button class="spec-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                        查看详情
-                    </button>
+                <div class="command-card">
+                    <div class="command-name">/uispec-do</div>
+                    <div class="command-desc">按规范开发功能</div>
+                    <div class="command-example">/uispec-do 创建登录页面</div>
                 </div>
-
-                <!-- Professional Business -->
-                <div class="marketplace-card" data-spec="professional-business">
-                    <div class="card-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
-                        <span class="spec-badge">专业</span>
-                    </div>
-                    <h3>Professional Business</h3>
-                    <p class="spec-subtitle">专业商务</p>
-                    <p class="spec-description">建立信任，传递权威，展现专业</p>
-
-                    <div class="spec-meta">
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                            <span>企业应用</span>
-                        </div>
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                            <span>金融产品</span>
-                        </div>
-                    </div>
-
-                    <div class="spec-colors">
-                        <div class="color-dot" style="background: #1e3a5f;"></div>
-                        <div class="color-dot" style="background: #2c5f8d;"></div>
-                        <div class="color-dot" style="background: #9ca3af;"></div>
-                        <div class="color-dot" style="background: #d4af37;"></div>
-                    </div>
-
-                    <button class="spec-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                        查看详情
-                    </button>
-                </div>
-
-                <!-- Vibrant Tech -->
-                <div class="marketplace-card" data-spec="vibrant-tech">
-                    <div class="card-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                        <span class="spec-badge">酷炫</span>
-                    </div>
-                    <h3>Vibrant Tech</h3>
-                    <p class="spec-subtitle">活力科技</p>
-                    <p class="spec-description">未来感、动感、创新，展现科技的无限可能</p>
-
-                    <div class="spec-meta">
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                            <span>科技产品</span>
-                        </div>
-                        <div class="meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
-                            <span>游戏平台</span>
-                        </div>
-                    </div>
-
-                    <div class="spec-colors">
-                        <div class="color-dot" style="background: #06b6d4;"></div>
-                        <div class="color-dot" style="background: #8b5cf6;"></div>
-                        <div class="color-dot" style="background: #f59e0b;"></div>
-                        <div class="color-dot" style="background: #10b981;"></div>
-                    </div>
-
-                    <button class="spec-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                        查看详情
-                    </button>
+                <div class="command-card">
+                    <div class="command-name">/uispec-check</div>
+                    <div class="command-desc">审查代码合规性</div>
+                    <div class="command-example">/uispec-check</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 安装步骤 -->
-    <section id="install" class="install-steps">
+    <!-- 结构 -->
+    <section id="structure" class="section">
         <div class="container">
             <div class="section-header">
-                <h2>三步上手</h2>
-                <p>简单到不可思议</p>
+                <h2>项目结构</h2>
+                <p>简洁清晰的目录组织</p>
             </div>
-
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>安装 UISpec CLI</h3>
-                        <p>一键安装命令行工具</p>
-                        <code>./quick-install.sh</code>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>初始化到 AI 编程工具</h3>
-                        <p>选择你的 AI 编程平台</p>
-                        <code>uispec init claude  # 或 uispec init qoder</code>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>开始使用</h3>
-                        <p>重启 AI 工具后即可使用三个核心命令</p>
-                        <code>/uispec-switch  # 选择设计规范</code>
-                    </div>
-                </div>
+            <div class="tree-view">
+<pre><span class="tree-comment"># UISpec 项目结构</span>
+<span class="tree-folder">uispec/</span>
+├── <span class="tree-folder">shell/</span>              <span class="tree-comment"># Shell 脚本实现</span>
+│   ├── <span class="tree-file">uispec.sh</span>       <span class="tree-comment"># 主入口</span>
+│   ├── <span class="tree-folder">lib/</span>           <span class="tree-comment"># 库文件</span>
+│   │   ├── <span class="tree-file">colors.sh</span>
+│   │   ├── <span class="tree-file">config.sh</span>
+│   │   └── <span class="tree-file">download.sh</span>
+│   └── <span class="tree-folder">commands/</span>      <span class="tree-comment"># 命令实现</span>
+├── <span class="tree-folder">specs/</span>             <span class="tree-comment"># 设计规范文件</span>
+├── <span class="tree-folder">commands/</span>          <span class="tree-comment"># AI 命令定义</span>
+│   ├── <span class="tree-file">uispec-switch.md</span>
+│   ├── <span class="tree-file">uispec-create.md</span>
+│   ├── <span class="tree-file">uispec-do.md</span>
+│   └── <span class="tree-file">uispec-check.md</span>
+├── <span class="tree-file">install.sh</span>         <span class="tree-comment"># 安装脚本</span>
+└── <span class="tree-file">README.md</span></pre>
             </div>
         </div>
     </section>
@@ -1198,11 +916,12 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div>© 2024 UISpec. Made with ❤️ for AI developers</div>
+                <div>© 2024 UISpec. Made for AI developers</div>
                 <div class="footer-links">
                     <a href="https://github.com/lgh-dev/uispec">GitHub</a>
-                    <a href="#docs">文档</a>
-                    <a href="#license">MIT License</a>
+                    <a href="#features">特性</a>
+                    <a href="#commands">命令</a>
+                    <a href="#">MIT</a>
                 </div>
             </div>
         </div>
@@ -1210,76 +929,67 @@
 
     <script>
         // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href'))?.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
         // 导航栏滚动效果
-        let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > 100) {
-                nav.style.background = 'rgba(18, 18, 18, 0.95)';
-                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
-                nav.style.boxShadow = '0 4px 16px 0 rgba(0, 0, 0, 0.7)';
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(15, 23, 42, 0.95)';
+                nav.style.borderBottom = '1px solid rgba(59, 130, 246, 0.2)';
             } else {
                 nav.style.background = '';
                 nav.style.borderBottom = '';
-                nav.style.boxShadow = '';
             }
-
-            lastScroll = currentScroll;
         });
 
-        // 规范市场卡片交互
-        document.querySelectorAll('.marketplace-card').forEach(card => {
+        // 复制安装命令
+        function copyInstall() {
+            const code = document.querySelector('.install-box code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+                setTimeout(() => {
+                    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+                }, 2000);
+            });
+        }
+
+        // 命令卡片点击
+        document.querySelectorAll('.command-card').forEach(card => {
             card.addEventListener('click', function() {
-                // 切换激活状态
-                document.querySelectorAll('.marketplace-card').forEach(c => {
-                    c.classList.remove('active');
-                    // 重置按钮文本
-                    const btn = c.querySelector('.spec-btn');
-                    btn.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                        查看详情
-                    `;
-                    // 更新badge
-                    const badge = c.querySelector('.spec-badge');
-                    if (badge.classList.contains('active-badge')) {
-                        badge.classList.remove('active-badge');
-                        badge.textContent = badge.dataset.originalText || '流行';
-                    }
-                });
-
+                document.querySelectorAll('.command-card').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
-
-                // 更新当前卡片按钮
-                const btn = this.querySelector('.spec-btn');
-                btn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    已选中
-                `;
-
-                // 更新badge
-                const badge = this.querySelector('.spec-badge');
-                if (!badge.dataset.originalText) {
-                    badge.dataset.originalText = badge.textContent;
-                }
-                badge.classList.add('active-badge');
-                badge.textContent = '当前';
-
-                // 获取规范名称
-                const specName = this.dataset.spec;
-                console.log(`已切换到规范: ${specName}`);
             });
         });
+
+        // 主题切换
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const theme = this.dataset.theme;
+                document.body.setAttribute('data-theme', theme);
+                // 保存主题偏好
+                localStorage.setItem('uispec-theme', theme);
+            });
+        });
+
+        // 恢复主题偏好
+        const savedTheme = localStorage.getItem('uispec-theme');
+        if (savedTheme) {
+            const btn = document.querySelector(`.theme-btn[data-theme="${savedTheme}"]`);
+            if (btn) {
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.body.setAttribute('data-theme', savedTheme);
+            }
+        }
     </script>
 </body>
 </html>
