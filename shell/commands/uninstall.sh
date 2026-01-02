@@ -14,7 +14,7 @@ source "${SCRIPT_DIR}/lib/colors.sh"
 uninstall_from_project() {
     local platform="${1:-}"
     local project_dir="$(pwd)"
-    local uikit_dir="${project_dir}/.uispec"
+    local uispec_dir="${project_dir}/.uispec"
 
     local platform_cmd_dir=""
     local platform_name=""
@@ -34,8 +34,8 @@ uninstall_from_project() {
             uninstall_from_project "qoder"
 
             # 删除整个 .uispec 目录
-            if [ -d "$uikit_dir" ]; then
-                rm -rf "$uikit_dir"
+            if [ -d "$uispec_dir" ]; then
+                rm -rf "$uispec_dir"
                 print_success "删除 .uispec 目录"
             fi
             echo ""

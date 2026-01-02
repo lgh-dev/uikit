@@ -140,7 +140,7 @@ main() {
     echo ""
     echo "========================================="
     echo ""
-    echo "查看帮助: uikit -h"
+    echo "查看帮助: uispec -h"
     echo "查看状态: uispec status"
     echo ""
     echo "卸载命令:"
