@@ -25,21 +25,29 @@ download_specs() {
     local target_dir="$1"
     local base_url="https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/specs"
 
-    local specs=(
-        "dark-sapphire.md"
-    )
+    # 获取 specs 目录下所有 .md 文件
+    local specs
+    specs=$(curl -fsSL "https://api.github.com/repos/${GITHUB_REPO}/contents/specs" 2>/dev/null | \
+        grep '"name"' | grep '\.md"' | sed 's/.*": "\(.*\)".*/\1/')
 
-    for spec in "${specs[@]}"; do
+    if [[ -z "$specs" ]]; then
+        print_error "无法获取规范文件列表"
+        return 1
+    fi
+
+    local count=0
+    while IFS= read -r spec; do
+        [[ -z "$spec" ]] && continue
         print_info "下载规范: $spec"
         if download_file "${base_url}/${spec}" "${target_dir}/${spec}"; then
             print_success "✓ ${spec}"
+            ((count++))
         else
             print_error "下载失败: ${spec}"
-            return 1
         fi
-    done
+    done <<< "$specs"
 
-    print_success "下载了 ${#specs[@]} 个规范文件"
+    print_success "下载了 ${count} 个规范文件"
 }
 
 # 下载命令文件
