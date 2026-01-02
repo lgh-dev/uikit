@@ -1,10 +1,10 @@
 ---
-description: 审查功能是否符合 UIKit 规范
+description: 审查功能是否符合 UISpec 规范
 ---
 
-# UIKit Check - 规范审查
+# UISpec Check - 规范审查
 
-审查已开发的功能是否符合当前选定的 UIKit 设计规范。
+审查已开发的功能是否符合当前选定的 UISpec 设计规范。
 
 ## 审查项目
 
@@ -38,19 +38,19 @@ description: 审查功能是否符合 UIKit 规范
 ## 执行流程（必须严格按顺序执行）
 
 ### 第一步：读取当前规范配置
-从 `.uikit/current-spec.json` 读取当前选定的规范名称。
+从 `.uispec/current-spec.json` 读取当前选定的规范名称。
 
 ### 第二步：读取完整规范文件（关键！）
 **CRITICAL**: 必须使用 Read 工具读取完整的规范文件，不能使用 limit 参数！
 
 正确示例：
 ```javascript
-Read('.uikit/specs/dark-elegant.md')  // ✅ 读取全文，不使用 limit
+Read('.uispec/specs/dark-elegant.md')  // ✅ 读取全文，不使用 limit
 ```
 
 错误示例：
 ```javascript
-Read('.uikit/specs/dark-elegant.md', limit: 100)  // ❌ 只读部分
+Read('.uispec/specs/dark-elegant.md', limit: 100)  // ❌ 只读部分
 ```
 
 **必须读取完整规范后才能进行审查！**

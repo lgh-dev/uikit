@@ -16,7 +16,7 @@ source "${SCRIPT_DIR}/lib/config.sh"
 show_banner() {
     echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
     echo -e "${CYAN}║                                               ║${NC}"
-    echo -e "${CYAN}║           UIKit CLI v2.0.0                    ║${NC}"
+    echo -e "${CYAN}║           UISpec CLI v2.0.0                   ║${NC}"
     echo -e "${CYAN}║         UI 规范管理和安装工具                 ║${NC}"
     echo -e "${CYAN}║                                               ║${NC}"
     echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
@@ -27,9 +27,9 @@ show_banner() {
 init_project() {
     local platform="${1:-}"
     local project_dir="$(pwd)"
-    local uikit_dir="${project_dir}/.uikit"
-    local specs_dir="${uikit_dir}/specs"
-    local config_file="${uikit_dir}/current-spec.json"
+    local uispec_dir="${project_dir}/.uispec"
+    local specs_dir="${uispec_dir}/specs"
+    local config_file="${uispec_dir}/current-spec.json"
 
     # 确定平台名称
     local platform_name=""
@@ -54,7 +54,7 @@ init_project() {
             print_error "请指定平台"
             echo ""
             echo -e "${CYAN}用法:${NC}"
-            echo "  uikit init <platform>"
+            echo "  uispec init <platform>"
             echo ""
             echo -e "${CYAN}支持的平台:${NC}"
             echo "  claude    Claude Code"
@@ -77,11 +77,11 @@ init_project() {
     echo ""
 
     # 创建目录结构
-    if [ ! -d "$uikit_dir" ]; then
-        mkdir -p "$uikit_dir"
-        print_success "创建 .uikit 目录"
+    if [ ! -d "$uispec_dir" ]; then
+        mkdir -p "$uispec_dir"
+        print_success "创建 .uispec 目录"
     else
-        print_info ".uikit 目录已存在"
+        print_info ".uispec 目录已存在"
     fi
 
     mkdir -p "$specs_dir"
@@ -115,14 +115,14 @@ init_project() {
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
     echo ""
-    echo -e "${GREEN}✅ UIKit 已成功初始化到项目!${NC}"
+    echo -e "${GREEN}✅ UISpec 已成功初始化到项目!${NC}"
     echo ""
     echo -e "${CYAN}平台:${NC} ${platform_name}"
     echo -e "${CYAN}项目目录:${NC} ${project_dir}"
     echo ""
     echo -e "${CYAN}已创建的文件:${NC}"
-    echo "  • .uikit/specs/              - 设计规范文件"
-    echo "  • .uikit/current-spec.json   - 当前选中的规范"
+    echo "  • .uispec/specs/              - 设计规范文件"
+    echo "  • .uispec/current-spec.json   - 当前选中的规范"
     if [ "$platform" = "claude" ] || [ "$platform" = "claude-code" ]; then
         echo "  • .claude/commands/          - Claude Code 命令"
     elif [ "$platform" = "qoder" ]; then
@@ -130,16 +130,16 @@ init_project() {
     fi
     echo ""
     echo -e "${CYAN}可用命令:${NC}"
-    echo "  • /uikit-switch - 选择设计规范"
-    echo "  • /uikit-do     - 按规范开发功能"
-    echo "  • /uikit-check  - 审查功能合规性"
+    echo "  • /uispec-switch - 选择设计规范"
+    echo "  • /uispec-do     - 按规范开发功能"
+    echo "  • /uispec-check  - 审查功能合规性"
     echo ""
     echo -e "${CYAN}使用步骤:${NC}"
     echo -e "  1. ${YELLOW}重启 ${platform_name}${NC}"
     echo "  2. 输入 / 查看可用命令"
     echo "  3. 使用命令开始开发"
     echo ""
-    echo -e "${GRAY}提示: 规范文件在 .uikit/specs/ 目录下，可以自由修改${NC}"
+    echo -e "${GRAY}提示: 规范文件在 .uispec/specs/ 目录下，可以自由修改${NC}"
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
     echo ""

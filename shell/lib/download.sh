@@ -2,7 +2,7 @@
 # download.sh - 下载功能库
 
 # GitHub 配置
-readonly GITHUB_REPO="lgh-dev/uikit"
+readonly GITHUB_REPO="lgh-dev/uispec"
 readonly GITHUB_BRANCH="main"
 
 # 下载单个文件
@@ -52,9 +52,9 @@ download_commands() {
     local base_url="https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/commands"
 
     local commands=(
-        "uikit-switch.md"
-        "uikit-do.md"
-        "uikit-check.md"
+        "uispec-switch.md"
+        "uispec-do.md"
+        "uispec-check.md"
     )
 
     for cmd in "${commands[@]}"; do

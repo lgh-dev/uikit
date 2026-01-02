@@ -1,17 +1,17 @@
 ---
-description: 按照选定的 UIKit 规范开发功能
+description: 按照选定的 UISpec 规范开发功能
 argument-hint: [功能描述]
 ---
 
-# UIKit Do - 按规范开发
+# UISpec Do - 按规范开发
 
-使用当前选定的 UIKit 设计规范开发功能。
+使用当前选定的 UISpec 设计规范开发功能。
 
 ## 使用方法
 
 请描述你要开发的功能，我会严格按照选定的设计规范生成代码。
 
-如果尚未选择规范，请先运行 /uikit-switch 选择一个设计规范。
+如果尚未选择规范，请先运行 /uispec-switch 选择一个设计规范。
 
 ## 设计规范要求
 
@@ -26,19 +26,19 @@ argument-hint: [功能描述]
 ## 执行流程（必须严格按顺序执行）
 
 ### 第一步：读取当前规范配置
-从 `.uikit/current-spec.json` 读取当前选定的规范名称。
+从 `.uispec/current-spec.json` 读取当前选定的规范名称。
 
 ### 第二步：读取完整规范文件（关键！）
 **CRITICAL**: 必须使用 Read 工具读取完整的规范文件，不能使用 limit 参数！
 
 错误示例：
 ```javascript
-Read('.uikit/specs/dark-elegant.md', limit: 150)  // ❌ 错误！只读了部分
+Read('.uispec/specs/dark-elegant.md', limit: 150)  // ❌ 错误！只读了部分
 ```
 
 正确示例：
 ```javascript
-Read('.uikit/specs/dark-elegant.md')  // ✅ 正确！读取全文
+Read('.uispec/specs/dark-elegant.md')  // ✅ 正确！读取全文
 ```
 
 **规范文件通常包含以下完整内容：**

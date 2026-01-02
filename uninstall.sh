@@ -1,10 +1,10 @@
 #!/bin/bash
-# UIKit CLI 卸载脚本
-# 从系统中完全删除 UIKit CLI 工具
+# UISpec CLI 卸载脚本
+# 从系统中完全删除 UISpec CLI 工具
 
 # 配置
 INSTALL_BIN="/usr/local/bin"
-INSTALL_SHARE="/usr/local/share/uikit"
+INSTALL_SHARE="/usr/local/share/uispec"
 
 # 颜色
 readonly RED='\033[0;31m'
@@ -31,7 +31,7 @@ print_error() {
 
 # 检查是否已安装
 is_installed() {
-    [ -f "${INSTALL_BIN}/uikit" ] || [ -d "${INSTALL_SHARE}" ]
+    [ -f "${INSTALL_BIN}/uispec" ] || [ -d "${INSTALL_SHARE}" ]
 }
 
 # 主卸载流程
@@ -67,20 +67,20 @@ main() {
 
     echo ""
     echo "========================================="
-    echo "  UIKit CLI 卸载程序"
+    echo "  UISpec CLI 卸载程序"
     echo "========================================="
     echo ""
 
     # 检查是否已安装
     if ! is_installed; then
-        print_warning "UIKit 未安装，无需卸载"
+        print_warning "UISpec 未安装，无需卸载"
         exit 0
     fi
 
-    print_warning "此操作将从系统中完全删除 UIKit CLI"
+    print_warning "此操作将从系统中完全删除 UISpec CLI"
     echo ""
     echo "将删除以下内容："
-    echo "  - ${INSTALL_BIN}/uikit"
+    echo "  - ${INSTALL_BIN}/uispec"
     echo "  - ${INSTALL_SHARE}/"
     echo ""
     echo -e "${YELLOW}注意：此操作不可逆！${NC}"
@@ -107,7 +107,7 @@ main() {
             print_error "无法获取用户输入"
             echo ""
             echo "请使用 -y 参数跳过确认："
-            echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | bash -s -- -y"
+            echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uispec/main/uninstall.sh | bash -s -- -y"
             echo ""
             exit 1
         fi
@@ -129,10 +129,10 @@ main() {
 
     # 删除主脚本
     print_info "删除主脚本..."
-    if [ -f "${INSTALL_BIN}/uikit" ]; then
-        sudo rm -f "${INSTALL_BIN}/uikit" && print_success "删除 ${INSTALL_BIN}/uikit" || { print_error "删除失败"; failed=1; }
+    if [ -f "${INSTALL_BIN}/uispec" ]; then
+        sudo rm -f "${INSTALL_BIN}/uispec" && print_success "删除 ${INSTALL_BIN}/uispec" || { print_error "删除失败"; failed=1; }
     else
-        print_info "${INSTALL_BIN}/uikit（不存在）"
+        print_info "${INSTALL_BIN}/uispec（不存在）"
     fi
 
     # 删除安装目录
@@ -145,7 +145,7 @@ main() {
 
     echo ""
     if [ $failed -eq 0 ]; then
-        print_success "UIKit CLI 卸载完成！"
+        print_success "UISpec CLI 卸载完成！"
     else
         print_warning "部分操作失败，请检查上面的错误信息"
     fi
@@ -155,11 +155,11 @@ main() {
     echo "  已删除的内容"
     echo "========================================="
     echo ""
-    echo "  • ${INSTALL_BIN}/uikit"
+    echo "  • ${INSTALL_BIN}/uispec"
     echo "  • ${INSTALL_SHARE}/"
     echo ""
     echo "如需重新安装，请运行："
-    echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/install.sh | bash"
+    echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uispec/main/install.sh | bash"
     echo ""
     echo "========================================="
     echo ""

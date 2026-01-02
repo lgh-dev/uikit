@@ -14,26 +14,26 @@ source "${SCRIPT_DIR}/lib/config.sh"
 # 显示状态
 show_status() {
     local project_dir="$(pwd)"
-    local uikit_dir="${project_dir}/.uikit"
-    local config_file="${uikit_dir}/current-spec.json"
-    local specs_dir="${uikit_dir}/specs"
+    local uispec_dir="${project_dir}/.uispec"
+    local config_file="${uispec_dir}/current-spec.json"
+    local specs_dir="${uispec_dir}/specs"
     local claude_cmd_dir="${project_dir}/.claude/commands"
     local qoder_cmd_dir="${project_dir}/.qoder/commands"
 
-    local commands=("uikit-switch.md" "uikit-do.md" "uikit-check.md")
+    local commands=("uispec-switch.md" "uispec-do.md" "uispec-check.md")
 
     echo ""
-    echo -e "${CYAN}📊 UIKit 项目状态${NC}"
+    echo -e "${CYAN}📊 UISpec 项目状态${NC}"
     echo "──────────────────────────────────────────────────"
     echo ""
 
     echo -e "${CYAN}项目目录:${NC} ${project_dir}"
 
     # 检查是否初始化
-    if [ ! -d "$uikit_dir" ]; then
+    if [ ! -d "$uispec_dir" ]; then
         echo ""
         echo -e "${GRAY}项目尚未初始化${NC}"
-        echo -e "运行 ${CYAN}uikit init claude${NC} 或 ${CYAN}uikit init qoder${NC} 开始初始化"
+        echo -e "运行 ${CYAN}uispec init claude${NC} 或 ${CYAN}uispec init qoder${NC} 开始初始化"
         echo ""
         return 0
     fi
@@ -114,7 +114,7 @@ show_status() {
         echo -e "${GREEN}✅ 项目已初始化${NC}"
     else
         echo -e "${YELLOW}⚠️  命令尚未安装到任何平台${NC}"
-        echo -e "运行 ${CYAN}uikit init claude${NC} 或 ${CYAN}uikit init qoder${NC} 安装命令"
+        echo -e "运行 ${CYAN}uispec init claude${NC} 或 ${CYAN}uispec init qoder${NC} 安装命令"
     fi
 
     echo ""

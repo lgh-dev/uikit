@@ -29,8 +29,8 @@ temp/
 .env
 .env.local
 
-# User-specific UIKit configuration (generated at runtime)
-# 用户项目中的 .uikit 和 .claude 目录不应该被提交
-.uikit/
+# User-specific UISpec configuration (generated at runtime)
+# 用户项目中的 .uispec 和 .claude 目录不应该被提交
+.uispec/
 .claude/
 .qoder/

@@ -10,11 +10,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # 加载库
 source "${SCRIPT_DIR}/lib/colors.sh"
 
-# 卸载项目中的 UIKit
+# 卸载项目中的 UISpec
 uninstall_from_project() {
     local platform="${1:-}"
     local project_dir="$(pwd)"
-    local uikit_dir="${project_dir}/.uikit"
+    local uikit_dir="${project_dir}/.uispec"
 
     local platform_cmd_dir=""
     local platform_name=""
@@ -33,20 +33,20 @@ uninstall_from_project() {
             uninstall_from_project "claude"
             uninstall_from_project "qoder"
 
-            # 删除整个 .uikit 目录
+            # 删除整个 .uispec 目录
             if [ -d "$uikit_dir" ]; then
                 rm -rf "$uikit_dir"
-                print_success "删除 .uikit 目录"
+                print_success "删除 .uispec 目录"
             fi
             echo ""
-            print_success "UIKit 已从所有平台卸载"
+            print_success "UISpec 已从所有平台卸载"
             return 0
             ;;
         "")
             print_error "请指定平台"
             echo ""
             echo -e "${CYAN}用法:${NC}"
-            echo "  uikit uninstall <platform>"
+            echo "  uispec uninstall <platform>"
             echo ""
             echo -e "${CYAN}支持的平台:${NC}"
             echo "  claude    Claude Code"
@@ -63,11 +63,11 @@ uninstall_from_project() {
             ;;
     esac
 
-    print_info "正在从 ${platform_name} 卸载 UIKit..."
+    print_info "正在从 ${platform_name} 卸载 UISpec..."
 
     # 删除平台命令
     if [ -d "$platform_cmd_dir" ]; then
-        local commands=("uikit-switch.md" "uikit-do.md" "uikit-check.md")
+        local commands=("uispec-switch.md" "uispec-do.md" "uispec-check.md")
         for cmd in "${commands[@]}"; do
             local cmd_path="${platform_cmd_dir}/${cmd}"
             local cmd_name="${cmd%.md}"
@@ -80,7 +80,7 @@ uninstall_from_project() {
     fi
 
     echo ""
-    print_success "UIKit 已从 ${platform_name} 卸载"
+    print_success "UISpec 已从 ${platform_name} 卸载"
 }
 
 # 执行卸载

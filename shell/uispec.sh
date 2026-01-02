@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# UIKit CLI - Shell Script Version
+# UISpec CLI - Shell Script Version
 # Version: 2.0.0
 
 set -e
@@ -9,10 +9,10 @@ set -u
 readonly VERSION="2.0.0"
 
 # 确定脚本目录
-# 如果从 /usr/local/bin/uikit 调用，库文件在 /usr/local/share/uikit
+# 如果从 /usr/local/bin/uispec 调用，库文件在 /usr/local/share/uispec
 # 如果从开发目录调用，库文件在同级 shell 目录
-if [ -d "/usr/local/share/uikit" ]; then
-    readonly SCRIPT_DIR="/usr/local/share/uikit"
+if [ -d "/usr/local/share/uispec" ]; then
+    readonly SCRIPT_DIR="/usr/local/share/uispec"
 elif [ -d "$(dirname "$0")/../shell" ]; then
     readonly SCRIPT_DIR="$(cd "$(dirname "$0")/../shell" && pwd)"
 else
@@ -24,23 +24,23 @@ source "${SCRIPT_DIR}/lib/colors.sh"
 
 # 显示帮助
 show_help() {
-    echo -e "${CYAN}UIKit CLI v${VERSION}${NC}"
+    echo -e "${CYAN}UISpec CLI v${VERSION}${NC}"
     echo "AI 时代的 UI 规范管理系统"
     echo ""
     echo -e "${CYAN}用法:${NC}"
-    echo "  uikit <command> [options]"
+    echo "  uispec <command> [options]"
     echo ""
     echo -e "${CYAN}命令:${NC}"
-    echo "  init <platform>   初始化 UIKit 到指定平台"
+    echo "  init <platform>   初始化 UISpec 到指定平台"
     echo "  status            查看安装状态"
     echo "  uninstall         卸载命令"
     echo "  help, -h          显示帮助"
     echo "  -v, --version     显示版本号"
     echo ""
     echo -e "${CYAN}初始化示例:${NC}"
-    echo "  uikit init claude     # 初始化到 Claude Code"
-    echo "  uikit init qoder      # 初始化到 Qoder"
-    echo "  uikit init all        # 初始化到所有平台"
+    echo "  uispec init claude     # 初始化到 Claude Code"
+    echo "  uispec init qoder      # 初始化到 Qoder"
+    echo "  uispec init all        # 初始化到所有平台"
     echo ""
     echo -e "${CYAN}支持的平台:${NC}"
     echo "  claude    Claude Code (当前支持)"
@@ -50,16 +50,16 @@ show_help() {
     echo ""
     echo -e "${CYAN}示例:${NC}"
     echo -e "  ${GRAY}# 查看当前状态${NC}"
-    echo "  uikit status"
+    echo "  uispec status"
     echo ""
     echo -e "  ${GRAY}# 初始化到 Claude Code${NC}"
-    echo "  uikit init claude"
+    echo "  uispec init claude"
     echo ""
     echo -e "  ${GRAY}# 初始化到 Qoder${NC}"
-    echo "  uikit init qoder"
+    echo "  uispec init qoder"
     echo ""
     echo -e "  ${GRAY}# 查看版本${NC}"
-    echo "  uikit -v"
+    echo "  uispec -v"
     echo ""
     echo -e "${CYAN}版本:${NC} ${VERSION}"
     echo ""
@@ -82,7 +82,7 @@ main() {
             bash "${SCRIPT_DIR}/commands/uninstall.sh" "$@"
             ;;
         -v|--version|version)
-            echo "UIKit CLI v${VERSION}"
+            echo "UISpec CLI v${VERSION}"
             ;;
         -h|--help|help|"")
             show_help

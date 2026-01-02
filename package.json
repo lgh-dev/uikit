@@ -1,14 +1,14 @@
 {
-  "name": "uikit",
+  "name": "uispec",
   "version": "2.0.0",
-  "description": "UIKit - AI时代的UI规范管理系统 (Shell版本)",
+  "description": "UISpec - AI时代的UI规范管理系统 (Shell版本)",
   "type": "module",
   "scripts": {
     "install": "./install.sh",
     "uninstall": "./uninstall.sh"
   },
   "keywords": [
-    "uikit",
+    "uispec",
     "design-system",
     "ui-specs",
     "design-tokens",
@@ -18,14 +18,14 @@
     "claude",
     "qoder"
   ],
-  "author": "UIKit Team",
+  "author": "UISpec Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lgh-dev/uikit.git"
+    "url": "https://github.com/lgh-dev/uispec.git"
   },
-  "homepage": "https://github.com/lgh-dev/uikit",
+  "homepage": "https://github.com/lgh-dev/uispec",
   "bugs": {
-    "url": "https://github.com/lgh-dev/uikit/issues"
+    "url": "https://github.com/lgh-dev/uispec/issues"
   }
 }

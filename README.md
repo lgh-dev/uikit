@@ -1,12 +1,12 @@
-# UIKit - AI 时代的 UI 规范管理系统
+# UISpec - AI 时代的 UI 规范管理系统
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/lgh-dev/uikit)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/lgh-dev/uispec)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Shell](https://img.shields.io/badge/shell-bash-orange.svg)](https://www.gnu.org/software/bash/)
 
 ## 简介
 
-UIKit 是专为 AI 编程助手设计的 UI 规范管理系统。通过简单的命令，让 AI 生成的界面始终保持一致的设计语言。
+UISpec 是专为 AI 编程助手设计的 UI 规范管理系统。通过简单的命令，让 AI 生成的界面始终保持一致的设计语言。
 
 ### ✨ 特性
 
@@ -22,17 +22,17 @@ UIKit 是专为 AI 编程助手设计的 UI 规范管理系统。通过简单的
 
 ```bash
 # 一键安装
-curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/lgh-dev/uispec/main/install.sh | bash
 ```
 
 ### 卸载
 
 ```bash
 # 一键卸载（需要用户确认）
-curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lgh-dev/uispec/main/uninstall.sh | sudo bash
 
 # 自动确认卸载（跳过交互）
-curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | bash -s -- -y
+curl -fsSL https://raw.githubusercontent.com/lgh-dev/uispec/main/uninstall.sh | bash -s -- -y
 ```
 
 **安全提示**：卸载脚本会显示将要删除的内容，并要求用户输入 `y` 确认后才会执行。
@@ -41,26 +41,26 @@ curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | b
 
 ```bash
 # 初始化到 Claude Code
-uikit init claude
+uispec init claude
 
 # 初始化到 Qoder
-uikit init qoder
+uispec init qoder
 
 # 同时初始化到所有平台
-uikit init all
+uispec init all
 ```
 
 ### 使用
 
 重启 AI 工具后，即可使用以下命令：
 
-- `/uikit-switch` - 选择设计规范
-- `/uikit-do` - 按规范开发功能
-- `/uikit-check` - 审查代码合规性
+- `/uispec-switch` - 选择设计规范
+- `/uispec-do` - 按规范开发功能
+- `/uispec-check` - 审查代码合规性
 
 ## 设计规范
 
-UIKit 内置 5 套专业设计规范：
+UISpec 内置 5 套专业设计规范：
 
 | 规范 | 适用场景 | 特点 |
 |------|----------|------|
@@ -81,39 +81,39 @@ UIKit 内置 5 套专业设计规范：
 
 ## 命令说明
 
-### UIKit CLI 命令
+### UISpec CLI 命令
 
 ```bash
 # 查看状态
-uikit status
+uispec status
 
 # 卸载
-uikit uninstall claude
-uikit uninstall qoder
-uikit uninstall all
+uispec uninstall claude
+uispec uninstall qoder
+uispec uninstall all
 
 # 查看版本
-uikit -v
+uispec -v
 
 # 查看帮助
-uikit -h
+uispec -h
 ```
 
 ### AI 工具命令详解
 
-#### /uikit-switch - 切换设计规范
+#### /uispec-switch - 切换设计规范
 
 快速切换项目使用的设计规范：
 
 ```bash
 # 直接指定规范
-/uikit-switch dark-elegant
+/uispec-switch dark-elegant
 
 # 不带参数显示选择列表
-/uikit-switch
+/uispec-switch
 ```
 
-#### /uikit-do - 按规范开发
+#### /uispec-do - 按规范开发
 
 使用选定规范开发功能，AI 会严格遵循：
 - 色彩系统（主色、辅助色、状态色）
@@ -122,24 +122,24 @@ uikit -h
 - 组件样式和交互状态
 
 ```bash
-/uikit-do 创建一个登录表单
+/uispec-do 创建一个登录表单
 ```
 
-#### /uikit-check - 审查合规性
+#### /uispec-check - 审查合规性
 
 审查代码是否符合规范：
 
 ```bash
-/uikit-check
+/uispec-check
 # AI 会给出详细的审查报告和改进建议
 ```
 
 ## 项目结构
 
 ```
-uikit/
+uispec/
 ├── shell/              # Shell 脚本实现
-│   ├── uikit.sh       # 主入口
+│   ├── uispec.sh       # 主入口
 │   ├── lib/           # 库文件
 │   │   ├── colors.sh  # 颜色输出
 │   │   ├── config.sh  # 配置管理
@@ -155,11 +155,11 @@ uikit/
 │   ├── professional-business.md
 │   └── vibrant-tech.md
 ├── commands/          # AI 工具命令
-│   ├── uikit-switch.md
-│   ├── uikit-do.md
-│   └── uikit-check.md
+│   ├── uispec-switch.md
+│   ├── uispec-do.md
+│   └── uispec-check.md
 ├── install.sh         # 安装脚本
-└── uikit-website.html # 项目官网
+└── uispec-website.html # 项目官网
 ```
 
 ## 系统要求
@@ -173,14 +173,14 @@ uikit/
 
 ```bash
 # 克隆项目
-git clone https://github.com/lgh-dev/uikit.git
-cd uikit
+git clone https://github.com/lgh-dev/uispec.git
+cd uispec
 
 # 本地测试
-./shell/uikit.sh status
+./shell/uispec.sh status
 
 # 开发模式运行
-./shell/uikit.sh init claude
+./shell/uispec.sh init claude
 ```
 
 ## 版本历史
@@ -210,10 +210,10 @@ cd uikit
 
 ## 链接
 
-- [项目主页](https://github.com/lgh-dev/uikit)
-- [问题反馈](https://github.com/lgh-dev/uikit/issues)
+- [项目主页](https://github.com/lgh-dev/uispec)
+- [问题反馈](https://github.com/lgh-dev/uispec/issues)
 - [设计规范文档](specs/)
-- [在线演示](https://lgh-dev.github.io/uikit/)
+- [在线演示](https://lgh-dev.github.io/uispec/)
 
 ---
 
